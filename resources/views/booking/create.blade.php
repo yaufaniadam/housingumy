@@ -14,11 +14,17 @@
                     </svg>
                 </div>
                 <div>
-                    <h2 class="text-2xl font-bold">{{ $room->room_number }}</h2>
-                    <p class="text-blue-100">{{ $room->building->name }} • {{ ucfirst($room->room_type) }} • Lantai {{ $room->floor }}</p>
+                    <h2 class="text-2xl font-bold">{{ ucfirst($sampleRoom->room_type) }}</h2>
+                    <p class="text-blue-100">{{ $sampleRoom->building->name }} • Lantai {{ $sampleRoom->floor }}</p>
+                    <div class="bg-blue-500/30 text-white text-xs px-2 py-1 rounded inline-block mt-1">
+                        <svg class="w-3 h-3 inline mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                        </svg>
+                        Nomor kamar akan ditentukan saat check-in
+                    </div>
                 </div>
                 <div class="ml-auto text-right">
-                    <div class="text-3xl font-bold">Rp {{ number_format($room->price_public, 0, ',', '.') }}</div>
+                    <div class="text-3xl font-bold">Rp {{ number_format($sampleRoom->price_public, 0, ',', '.') }}</div>
                     <div class="text-blue-100">per malam</div>
                 </div>
             </div>
@@ -27,7 +33,8 @@
         <!-- Booking Form -->
         <form action="{{ route('booking.store') }}" method="POST" class="p-6">
             @csrf
-            <input type="hidden" name="room_id" value="{{ $room->id }}">
+            <input type="hidden" name="room_type" value="{{ $sampleRoom->room_type }}">
+            <input type="hidden" name="building_id" value="{{ $sampleRoom->building_id }}">
 
             @if($errors->any())
                 <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
@@ -39,61 +46,45 @@
                 </div>
             @endif
 
-            <h3 class="text-lg font-bold text-gray-800 mb-4">Data Tamu</h3>
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Data Pemesan</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap *</label>
-                    <input type="text" name="guest_name" value="{{ old('guest_name') }}" required
-                           class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                           placeholder="Masukkan nama lengkap">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Tipe Tamu *</label>
-                    <select name="guest_type" required class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                        <option value="">Pilih tipe...</option>
-                        <option value="mahasiswa" {{ old('guest_type') == 'mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
-                        <option value="dosen" {{ old('guest_type') == 'dosen' ? 'selected' : '' }}>Dosen</option>
-                        <option value="staf" {{ old('guest_type') == 'staf' ? 'selected' : '' }}>Staf</option>
-                        <option value="umum" {{ old('guest_type') == 'umum' ? 'selected' : '' }}>Umum</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">NIK/NIM/NIP *</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">NIK/NIM/NIP Pemesan *</label>
                     <input type="text" name="guest_identity_number" value="{{ old('guest_identity_number') }}" required
                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                           placeholder="Nomor identitas">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Jumlah Tamu *</label>
-                    <input type="number" name="total_guests" value="{{ old('total_guests', 1) }}" min="1" max="{{ $room->capacity }}" required
-                           class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">No. Telepon *</label>
-                    <input type="tel" name="guest_phone" value="{{ old('guest_phone') }}" required
-                           class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                           placeholder="08xxxxxxxxxx">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-                    <input type="email" name="guest_email" value="{{ old('guest_email') }}" required
-                           class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                           placeholder="email@example.com">
+                           placeholder="Nomor identitas pemesan">
                 </div>
             </div>
 
-            <h3 class="text-lg font-bold text-gray-800 mb-4">Tanggal Menginap</h3>
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Data Tamu ({{ request('total_guests', 1) }} Orang)</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Check-in *</label>
-                    <input type="date" name="check_in_date" value="{{ old('check_in_date', $checkIn) }}" required
-                           class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                           min="{{ now()->format('Y-m-d') }}">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Check-out *</label>
-                    <input type="date" name="check_out_date" value="{{ old('check_out_date', $checkOut) }}" required
-                           class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                @for ($i = 1; $i <= request('total_guests', 1); $i++)
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Tamu {{ $i }} *</label>
+                        <input type="text" name="guest_names[]" value="{{ old('guest_names.' . ($i-1)) }}" required
+                               class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                               placeholder="Nama lengkap tamu {{ $i }}">
+                    </div>
+                @endfor
+            </div>
+
+            <!-- Hidden inputs for dates and guest count -->
+            <input type="hidden" name="check_in_date" value="{{ old('check_in_date', $checkIn) }}">
+            <input type="hidden" name="check_out_date" value="{{ old('check_out_date', $checkOut) }}">
+            <input type="hidden" name="total_guests" value="{{ request('total_guests', 1) }}">
+
+            <!-- Date display (read-only) -->
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                <h4 class="font-semibold text-gray-800 mb-2">📅 Periode Menginap</h4>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <span class="text-gray-600">Check-in:</span>
+                        <span class="font-medium text-gray-900">{{ \Carbon\Carbon::parse($checkIn)->format('d M Y') }}</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-600">Check-out:</span>
+                        <span class="font-medium text-gray-900">{{ \Carbon\Carbon::parse($checkOut)->format('d M Y') }}</span>
+                    </div>
                 </div>
             </div>
 
@@ -108,12 +99,12 @@
                 <h4 class="font-semibold text-gray-800 mb-2">Ringkasan</h4>
                 <div class="text-sm text-gray-600 space-y-1">
                     <div class="flex justify-between">
-                        <span>Kamar:</span>
-                        <span>{{ $room->room_number }} ({{ $room->building->name }})</span>
+                        <span>Tipe Kamar:</span>
+                        <span>{{ ucfirst($sampleRoom->room_type) }} ({{ $sampleRoom->building->name }})</span>
                     </div>
                     <div class="flex justify-between">
                         <span>Harga per malam:</span>
-                        <span>Rp {{ number_format($room->price_public, 0, ',', '.') }}</span>
+                        <span>Rp {{ number_format($sampleRoom->price_public, 0, ',', '.') }}</span>
                     </div>
                 </div>
                 <div class="border-t mt-2 pt-2 flex justify-between font-semibold">

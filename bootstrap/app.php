@@ -11,7 +11,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->redirectGuestsTo(fn (\Illuminate\Http\Request $request) => match (true) {
+            $request->is('unit-kerja*') => route('unit-kerja.login'),
+            $request->is('customer*') => route('customer.login'),
+            $request->is('booking/create*') => route('customer.login'),
+            $request->is('booking/store*') => route('customer.login'),
+            default => route('filament.admin.auth.login'),
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

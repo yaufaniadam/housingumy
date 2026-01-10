@@ -15,8 +15,13 @@ Route::get('/', function () {
 Route::prefix('booking')->name('booking.')->group(function () {
     Route::get('/', [BookingController::class, 'index'])->name('index');
     Route::get('/rooms', [BookingController::class, 'rooms'])->name('rooms');
-    Route::get('/create/{room}', [BookingController::class, 'create'])->name('create');
-    Route::post('/store', [BookingController::class, 'store'])->name('store');
+    
+    // Protected booking routes - require authentication
+    Route::middleware('auth:customer')->group(function () {
+        Route::get('/create', [BookingController::class, 'create'])->name('create');
+        Route::post('/store', [BookingController::class, 'store'])->name('store');
+    });
+    
     Route::get('/success/{reservation}', [BookingController::class, 'success'])->name('success');
     Route::get('/check', [BookingController::class, 'check'])->name('check');
     

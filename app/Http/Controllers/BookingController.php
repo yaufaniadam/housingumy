@@ -26,8 +26,7 @@ class BookingController extends Controller
 
     public function rooms(Request $request)
     {
-        $query = Room::where('status', 'available')
-            ->with(['building', 'facilities']);
+        $query = Room::where('status', 'available');
 
         if ($request->building_id) {
             $query->where('building_id', $request->building_id);
@@ -54,51 +53,115 @@ class BookingController extends Controller
             });
         }
 
-        $rooms = $query->get();
+        // Group rooms by type and aggregate data
+        $roomTypes = $query->with(['building', 'facilities'])
+            ->get()
+            ->groupBy('room_type')
+            ->map(function ($rooms, $type) {
+                $firstRoom = $rooms->first();
+                return [
+                    'room_type' => $type,
+                    'available_count' => $rooms->count(),
+                    'building_name' => $firstRoom->building->name,
+                    'building_id' => $firstRoom->building_id,
+                    'price_public' => $firstRoom->price_public,
+                    'capacity' => $firstRoom->capacity,
+                    'floor' => $firstRoom->floor,
+                    'facilities' => $firstRoom->facilities,
+                    'description' => $firstRoom->description,
+                    'image' => $firstRoom->image,
+                    // Store first available room ID for booking
+                    'sample_room_id' => $firstRoom->id,
+                ];
+            });
+
         $buildings = Building::where('is_active', true)->get();
 
-        return view('booking.rooms', compact('rooms', 'buildings'));
+        return view('booking.rooms', compact('roomTypes', 'buildings'));
     }
 
-    public function create(Room $room, Request $request)
+    public function create(Request $request)
     {
+        $request->validate([
+            'room_type' => 'required|string',
+            'building_id' => 'required|exists:buildings,id',
+        ]);
+
         $checkIn = $request->check_in ?? now()->addDay()->format('Y-m-d');
         $checkOut = $request->check_out ?? now()->addDays(2)->format('Y-m-d');
 
-        return view('booking.create', compact('room', 'checkIn', 'checkOut'));
+        // Get a sample room from this type for displaying info
+        $sampleRoom = Room::where('room_type', $request->room_type)
+            ->where('building_id', $request->building_id)
+            ->where('status', 'available')
+            ->with(['building', 'facilities'])
+            ->first();
+
+        if (!$sampleRoom) {
+            return redirect()->route('booking.rooms')
+                ->with('error', 'Tipe kamar tidak tersedia.');
+        }
+
+        return view('booking.create', compact('sampleRoom', 'checkIn', 'checkOut'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'room_id' => 'required|exists:rooms,id',
-            'guest_name' => 'required|string|max:255',
-            'guest_phone' => 'required|string|max:20',
-            'guest_email' => 'required|email|max:100',
+            'room_type' => 'required|string',
+            'building_id' => 'required|exists:buildings,id',
+            'guest_names' => 'required|array|min:1',
+            'guest_names.*' => 'required|string|max:255',
             'guest_identity_number' => 'required|string|max:50',
-            'guest_type' => 'required|in:mahasiswa,staf,dosen,umum',
             'check_in_date' => 'required|date|after_or_equal:today',
             'check_out_date' => 'required|date|after:check_in_date',
             'total_guests' => 'required|integer|min:1',
             'notes' => 'nullable|string',
         ]);
 
-        $room = Room::findOrFail($validated['room_id']);
-        
         $checkIn = Carbon::parse($validated['check_in_date']);
         $checkOut = Carbon::parse($validated['check_out_date']);
+
+        // Find an available room from the selected type and building
+        $availableRoom = Room::where('room_type', $validated['room_type'])
+            ->where('building_id', $validated['building_id'])
+            ->where('status', 'available')
+            ->whereDoesntHave('reservations', function ($q) use ($checkIn, $checkOut) {
+                $q->whereIn('status', ['approved', 'checked_in'])
+                    ->where(function ($q2) use ($checkIn, $checkOut) {
+                        $q2->whereBetween('check_in_date', [$checkIn, $checkOut])
+                            ->orWhereBetween('check_out_date', [$checkIn, $checkOut])
+                            ->orWhere(function ($q3) use ($checkIn, $checkOut) {
+                                $q3->where('check_in_date', '<=', $checkIn)
+                                    ->where('check_out_date', '>=', $checkOut);
+                            });
+                    });
+            })
+            ->first();
+
+        if (!$availableRoom) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Tidak ada kamar tersedia untuk tipe dan tanggal yang dipilih.');
+        }
+
         $totalNights = $checkIn->diffInDays($checkOut);
-        $pricePerNight = $room->price_public;
+        $pricePerNight = $availableRoom->price_public;
         $totalPrice = $totalNights * $pricePerNight;
 
+        $user = Auth::guard('customer')->user();
+
+        // Convert guest names array to JSON for storage
+        $guestNamesJson = json_encode($validated['guest_names']);
+
         $reservation = Reservation::create([
-            'room_id' => $validated['room_id'],
-            'user_id' => Auth::guard('customer')->id(), // Link to logged-in user
-            'guest_name' => $validated['guest_name'],
-            'guest_phone' => $validated['guest_phone'],
-            'guest_email' => $validated['guest_email'],
+            'room_id' => $availableRoom->id,
+            'user_id' => $user->id,
+            'guest_name' => $guestNamesJson, // Store all guest names as JSON
+            'guest_phone' => $user->phone, // Get from authenticated user
+            'guest_email' => $user->email, // Get from authenticated user
             'guest_identity_number' => $validated['guest_identity_number'],
-            'guest_type' => $validated['guest_type'],
+            'guest_type' => 'umum', // Default value since field removed from form
             'check_in_date' => $validated['check_in_date'],
             'check_out_date' => $validated['check_out_date'],
             'total_guests' => $validated['total_guests'],

@@ -66,7 +66,7 @@ class CustomerAuthController extends Controller
 
         Auth::guard('customer')->login($user);
 
-        return redirect()->route('customer.dashboard')
+        return redirect()->intended(route('customer.dashboard'))
             ->with('success', 'Akun berhasil dibuat! Selamat datang.');
     }
 
