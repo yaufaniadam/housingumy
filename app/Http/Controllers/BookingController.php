@@ -15,8 +15,10 @@ class BookingController extends Controller
     public function index()
     {
         $buildings = Building::where('is_active', true)
+            ->where('show_in_search', true)
             ->with(['rooms' => function ($query) {
                 $query->where('status', 'available')
+                    ->where('room_type', 'like', 'dormitory_%')
                     ->with('facilities');
             }])
             ->get();
@@ -26,7 +28,11 @@ class BookingController extends Controller
 
     public function rooms(Request $request)
     {
-        $query = Room::where('status', 'available');
+        $query = Room::where('status', 'available')
+            ->where('room_type', 'like', 'dormitory_%')
+            ->whereHas('building', function ($q) {
+                $q->where('is_active', true)->where('show_in_search', true);
+            });
 
         if ($request->building_id) {
             $query->where('building_id', $request->building_id);
@@ -64,7 +70,7 @@ class BookingController extends Controller
                     'available_count' => $rooms->count(),
                     'building_name' => $firstRoom->building->name,
                     'building_id' => $firstRoom->building_id,
-                    'price_public' => $firstRoom->price_public,
+                    'price' => $firstRoom->price,
                     'capacity' => $firstRoom->capacity,
                     'floor' => $firstRoom->floor,
                     'facilities' => $firstRoom->facilities,
@@ -75,7 +81,9 @@ class BookingController extends Controller
                 ];
             });
 
-        $buildings = Building::where('is_active', true)->get();
+        $buildings = Building::where('is_active', true)
+            ->where('show_in_search', true)
+            ->get();
 
         return view('booking.rooms', compact('roomTypes', 'buildings'));
     }
@@ -94,6 +102,9 @@ class BookingController extends Controller
         $sampleRoom = Room::where('room_type', $request->room_type)
             ->where('building_id', $request->building_id)
             ->where('status', 'available')
+            ->whereHas('building', function ($q) {
+                $q->where('is_active', true)->where('show_in_search', true);
+            })
             ->with(['building', 'facilities'])
             ->first();
 
@@ -126,6 +137,9 @@ class BookingController extends Controller
         $availableRoom = Room::where('room_type', $validated['room_type'])
             ->where('building_id', $validated['building_id'])
             ->where('status', 'available')
+            ->whereHas('building', function ($q) {
+                $q->where('is_active', true)->where('show_in_search', true);
+            })
             ->whereDoesntHave('reservations', function ($q) use ($checkIn, $checkOut) {
                 $q->whereIn('status', ['approved', 'checked_in'])
                     ->where(function ($q2) use ($checkIn, $checkOut) {
@@ -146,7 +160,7 @@ class BookingController extends Controller
         }
 
         $totalNights = $checkIn->diffInDays($checkOut);
-        $pricePerNight = $availableRoom->price_public;
+        $pricePerNight = $availableRoom->price;
         $totalPrice = $totalNights * $pricePerNight;
 
         $user = Auth::guard('customer')->user();
@@ -169,7 +183,8 @@ class BookingController extends Controller
             'price_per_night' => $pricePerNight,
             'total_price' => $totalPrice,
             'notes' => $validated['notes'],
-            'status' => 'pending',
+            'notes' => $validated['notes'],
+            'status' => 'approved', // Auto-approve to allow immediate payment
         ]);
 
         return redirect()->route('booking.success', $reservation);

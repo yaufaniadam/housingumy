@@ -18,16 +18,14 @@ class Room extends Model
         'room_type',
         'floor',
         'capacity',
-        'price_public',
-        'price_internal',
+        'price',
         'status',
         'description',
         'image',
     ];
 
     protected $casts = [
-        'price_public' => 'decimal:2',
-        'price_internal' => 'decimal:2',
+        'price' => 'decimal:2',
     ];
 
     public function building(): BelongsTo

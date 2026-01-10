@@ -78,7 +78,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                     </svg>
                     <span class="absolute top-4 left-4 bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-semibold">
-                        {{ ucfirst($roomType['room_type']) }}
+                        {{ ucwords(str_replace('_', ' ', $roomType['room_type'])) }}
                     </span>
                     <span class="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold">
                         {{ $roomType['available_count'] }} Tersedia
@@ -87,7 +87,7 @@
                 <div class="p-6">
                     <div class="flex items-start justify-between mb-2">
                         <div>
-                            <h4 class="font-bold text-lg text-gray-800">{{ ucfirst($roomType['room_type']) }}</h4>
+                            <h4 class="font-bold text-lg text-gray-800">{{ ucwords(str_replace('_', ' ', $roomType['room_type'])) }}</h4>
                             <p class="text-sm text-gray-500">{{ $roomType['building_name'] }}</p>
                         </div>
                     </div>
@@ -109,16 +109,11 @@
                     </div>
                     @endif
 
-                    <div class="bg-blue-50 text-blue-700 text-xs px-3 py-2 rounded mb-4">
-                        <svg class="w-4 h-4 inline mr-1" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-                        </svg>
-                        Nomor kamar akan diberikan saat check-in
-                    </div>
+
 
                     <div class="border-t pt-4 flex items-center justify-between">
                         <div>
-                            <span class="text-2xl font-bold text-blue-600">Rp {{ number_format($roomType['price_public'], 0, ',', '.') }}</span>
+                            <span class="text-2xl font-bold text-blue-600">Rp {{ number_format($roomType['price'], 0, ',', '.') }}</span>
                             <span class="text-gray-400 text-sm">/malam</span>
                         </div>
                         <a href="{{ route('booking.create', [

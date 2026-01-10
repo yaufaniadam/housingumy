@@ -40,7 +40,9 @@ class Reservation extends Model
         'check_out_date' => 'date',
         'price_per_night' => 'decimal:2',
         'total_price' => 'decimal:2',
+        'total_price' => 'decimal:2',
         'approved_at' => 'datetime',
+        'guest_name' => 'array',
     ];
 
     protected static function booted(): void

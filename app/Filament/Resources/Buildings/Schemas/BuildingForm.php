@@ -46,6 +46,35 @@ class BuildingForm
                             ->columnSpanFull(),
                     ]),
 
+                Section::make('Kategori & Visibilitas')
+                    ->description('Pengaturan kategori gedung dan tampilan di sistem')
+                    ->icon('heroicon-o-cog-6-tooth')
+                    ->schema([
+                        Grid::make(3)
+                            ->schema([
+                                TextInput::make('unit_category')
+                                    ->label('Kategori Unit')
+                                    ->helperText('Public: Gedung umum | Partner: Gedung mitra | Internal: Gedung internal')
+                                    ->required()
+                                    ->default('public')
+                                    ->datalist([
+                                        'public' => 'Public',
+                                        'partner' => 'Partner',
+                                        'internal' => 'Internal',
+                                    ]),
+                                Toggle::make('show_in_search')
+                                    ->label('Tampil di Pencarian')
+                                    ->helperText('Gedung akan muncul di hasil pencarian publik')
+                                    ->default(true)
+                                    ->inline(false),
+                                Toggle::make('show_pricing')
+                                    ->label('Tampilkan Harga')
+                                    ->helperText('Harga akan ditampilkan di halaman publik')
+                                    ->default(true)
+                                    ->inline(false),
+                            ]),
+                    ]),
+
                 Section::make('Media & Status')
                     ->schema([
                         FileUpload::make('image')

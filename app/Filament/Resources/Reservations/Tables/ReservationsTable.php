@@ -32,7 +32,8 @@ class ReservationsTable
                 TextColumn::make('guest_name')
                     ->label('Nama Tamu')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->formatStateUsing(fn ($state) => is_array($state) ? implode(', ', $state) : $state),
                 TextColumn::make('guest_type')
                     ->label('Tipe')
                     ->badge()

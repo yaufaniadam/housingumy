@@ -15,12 +15,17 @@ class Building extends Model
         'code',
         'address',
         'description',
+        'unit_category',
+        'show_in_search',
+        'show_pricing',
         'image',
         'is_active',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'show_in_search' => 'boolean',
+        'show_pricing' => 'boolean',
     ];
 
     public function rooms(): HasMany
@@ -31,5 +36,15 @@ class Building extends Model
     public function financialTransactions(): HasMany
     {
         return $this->hasMany(FinancialTransaction::class);
+    }
+
+    public function shouldShowInSearch(): bool
+    {
+        return $this->is_active && $this->show_in_search;
+    }
+
+    public function shouldShowPricing(): bool
+    {
+        return $this->show_pricing;
     }
 }

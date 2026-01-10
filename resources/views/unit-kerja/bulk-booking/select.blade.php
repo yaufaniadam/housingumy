@@ -54,14 +54,14 @@
                                         @foreach($rooms as $room)
                                             <label class="relative cursor-pointer group">
                                                 <input type="checkbox" name="room_ids[]" value="{{ $room->id }}" 
-                                                       data-price="{{ $room->price_internal }}"
+                                                       data-price="{{ $room->price }}"
                                                        class="peer sr-only room-checkbox">
                                                 
                                                 <div class="p-4 rounded-lg border-2 border-gray-200 hover:border-purple-300 peer-checked:border-purple-600 peer-checked:bg-purple-50 transition text-center">
                                                     <div class="font-bold text-lg text-gray-800 peer-checked:text-purple-700">{{ $room->room_number }}</div>
                                                     <div class="text-xs text-gray-500 mt-1">{{ ucfirst($room->room_type) }}</div>
                                                     <div class="text-xs font-semibold text-purple-600 mt-2">
-                                                        Rp {{ number_format($room->price_internal / 1000, 0) }}k
+                                                        Rp {{ number_format($room->price / 1000, 0) }}k
                                                     </div>
                                                 </div>
                                                 

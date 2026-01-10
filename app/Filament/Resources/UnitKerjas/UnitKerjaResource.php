@@ -24,9 +24,9 @@ class UnitKerjaResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $modelLabel = 'Unit Kerja';
+    protected static ?string $modelLabel = 'Unit & Mitra';
 
-    protected static ?string $pluralModelLabel = 'Unit Kerja';
+    protected static ?string $pluralModelLabel = 'Unit & Mitra';
 
     public static function form(Schema $schema): Schema
     {

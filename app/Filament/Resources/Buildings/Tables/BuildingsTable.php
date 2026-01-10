@@ -33,12 +33,44 @@ class BuildingsTable
                     ->badge()
                     ->color('primary')
                     ->searchable(),
+                TextColumn::make('unit_category')
+                    ->label('Kategori')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'public' => 'success',
+                        'partner' => 'warning',
+                        'internal' => 'info',
+                        default => 'gray',
+                    })
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'public' => 'Public',
+                        'partner' => 'Partner',
+                        'internal' => 'Internal',
+                        default => $state,
+                    })
+                    ->sortable(),
                 TextColumn::make('rooms_count')
                     ->label('Jumlah Kamar')
                     ->counts('rooms')
                     ->sortable()
                     ->badge()
                     ->color('success'),
+                IconColumn::make('show_in_search')
+                    ->label('Di Pencarian')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-eye')
+                    ->falseIcon('heroicon-o-eye-slash')
+                    ->trueColor('success')
+                    ->falseColor('gray')
+                    ->tooltip(fn ($state) => $state ? 'Muncul di pencarian' : 'Tidak muncul di pencarian'),
+                IconColumn::make('show_pricing')
+                    ->label('Tampil Harga')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-currency-dollar')
+                    ->falseIcon('heroicon-o-no-symbol')
+                    ->trueColor('success')
+                    ->falseColor('gray')
+                    ->tooltip(fn ($state) => $state ? 'Harga ditampilkan' : 'Harga disembunyikan'),
                 TextColumn::make('address')
                     ->label('Alamat')
                     ->limit(30)
@@ -59,6 +91,23 @@ class BuildingsTable
             ])
             ->defaultSort('name')
             ->filters([
+                SelectFilter::make('unit_category')
+                    ->label('Kategori')
+                    ->options([
+                        'public' => 'Public',
+                        'partner' => 'Partner',
+                        'internal' => 'Internal',
+                    ]),
+                TernaryFilter::make('show_in_search')
+                    ->label('Tampil di Pencarian')
+                    ->placeholder('Semua')
+                    ->trueLabel('Ya')
+                    ->falseLabel('Tidak'),
+                TernaryFilter::make('show_pricing')
+                    ->label('Tampilkan Harga')
+                    ->placeholder('Semua')
+                    ->trueLabel('Ya')
+                    ->falseLabel('Tidak'),
                 TernaryFilter::make('is_active')
                     ->label('Status Aktif')
                     ->placeholder('Semua')

@@ -24,7 +24,7 @@
                     </div>
                 </div>
                 <div class="ml-auto text-right">
-                    <div class="text-3xl font-bold">Rp {{ number_format($sampleRoom->price_public, 0, ',', '.') }}</div>
+                    <div class="text-3xl font-bold">Rp {{ number_format($sampleRoom->price, 0, ',', '.') }}</div>
                     <div class="text-blue-100">per malam</div>
                 </div>
             </div>
@@ -104,7 +104,7 @@
                     </div>
                     <div class="flex justify-between">
                         <span>Harga per malam:</span>
-                        <span>Rp {{ number_format($sampleRoom->price_public, 0, ',', '.') }}</span>
+                        <span>Rp {{ number_format($sampleRoom->price, 0, ',', '.') }}</span>
                     </div>
                 </div>
                 <div class="border-t mt-2 pt-2 flex justify-between font-semibold">

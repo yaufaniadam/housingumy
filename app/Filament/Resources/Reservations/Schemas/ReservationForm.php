@@ -92,9 +92,8 @@ class ReservationForm
                                         if ($state) {
                                             $room = Room::find($state);
                                             if ($room) {
-                                                $isInternal = $get('guest_type') === 'unit_kerja';
-                                                $price = $isInternal ? $room->price_internal : $room->price_public;
-                                                $set('price_per_night', $price);
+                                                // Use single price for all guest types (discount via coupon in future)
+                                                $set('price_per_night', $room->price);
                                                 self::calculateTotal($get, $set);
                                             }
                                         }

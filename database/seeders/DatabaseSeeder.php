@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             FacilitySeeder::class,
             RoomSeeder::class,
             UnitKerjaSeeder::class,
+            MahadAliSeeder::class,
         ]);
     }
 }

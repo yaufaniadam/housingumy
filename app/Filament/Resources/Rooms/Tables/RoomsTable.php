@@ -53,15 +53,10 @@ class RoomsTable
                     ->numeric()
                     ->sortable()
                     ->alignCenter(),
-                TextColumn::make('price_public')
-                    ->label('Tarif Publik')
+                TextColumn::make('price')
+                    ->label('Tarif')
                     ->money('IDR')
                     ->sortable(),
-                TextColumn::make('price_internal')
-                    ->label('Tarif Internal')
-                    ->money('IDR')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
@@ -94,9 +89,11 @@ class RoomsTable
                 SelectFilter::make('room_type')
                     ->label('Tipe Kamar')
                     ->options([
-                        'single' => 'Single',
-                        'double' => 'Double',
-                        'suite' => 'Suite',
+                        'dormitory_single' => 'Kamar Single',
+                        'dormitory_double' => 'Kamar Double',
+                        'dormitory_suite' => 'Kamar Suite',
+                        'office' => 'Kantor',
+                        'classroom' => 'Kelas',
                     ]),
                 SelectFilter::make('status')
                     ->label('Status')

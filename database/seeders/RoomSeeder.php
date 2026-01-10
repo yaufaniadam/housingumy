@@ -18,18 +18,21 @@ class RoomSeeder extends Seeder
         $facilities = Facility::all();
 
         foreach ($buildings as $building) {
+            // Skip Ma'had Ali as it is handled by MahadAliSeeder
+            if ($building->code === 'MA' || $building->code === 'MAHAD') {
+                continue;
+            }
+
             $roomCount = match ($building->code) {
                 'UR' => 20,  // University Resident - banyak kamar
-                'MA' => 15,  // Ma'had Ali
-                'WP' => 10,  // Wisma Pascasarjana
+                'WUMY' => 10,  // Wisma UMY
                 'PGH' => 8,  // Professor Guest House - lebih sedikit, lebih premium
                 default => 10,
             };
 
             $priceMultiplier = match ($building->code) {
                 'UR' => 1.0,
-                'MA' => 1.0,
-                'WP' => 1.5,
+                'WUMY' => 1.5,
                 'PGH' => 2.5,
                 default => 1.0,
             };
@@ -37,15 +40,16 @@ class RoomSeeder extends Seeder
             for ($i = 1; $i <= $roomCount; $i++) {
                 $floor = ceil($i / 5);
                 $roomType = match (true) {
-                    $i % 5 === 0 => 'suite',
-                    $i % 3 === 0 => 'double',
-                    default => 'single',
+                    $i % 5 === 0 => 'dormitory_suite',
+                    $i % 3 === 0 => 'dormitory_double',
+                    default => 'dormitory_single',
                 };
 
                 $basePrice = match ($roomType) {
-                    'single' => 150000,
-                    'double' => 250000,
-                    'suite' => 400000,
+                    'dormitory_single' => 150000,
+                    'dormitory_double' => 250000,
+                    'dormitory_suite' => 400000,
+                    default => 150000,
                 };
 
                 $room = Room::create([
@@ -54,12 +58,11 @@ class RoomSeeder extends Seeder
                     'room_type' => $roomType,
                     'floor' => $floor,
                     'capacity' => match ($roomType) {
-                        'single' => 1,
-                        'double' => 2,
-                        'suite' => 4,
+                        'dormitory_single' => 1,
+                        'dormitory_double' => 2,
+                        'dormitory_suite' => 4,
                     },
-                    'price_public' => $basePrice * $priceMultiplier,
-                    'price_internal' => $basePrice * $priceMultiplier * 0.7, // 30% discount untuk internal
+                    'price' => $basePrice * $priceMultiplier,
                     'status' => 'available',
                     'description' => "Kamar {$roomType} di lantai {$floor}",
                 ]);

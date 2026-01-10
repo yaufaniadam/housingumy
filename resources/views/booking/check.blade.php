@@ -38,15 +38,32 @@
                             ];
                             $statusLabels = [
                                 'pending' => 'Menunggu Persetujuan',
-                                'approved' => 'Disetujui',
+                                'approved' => 'Disetujui', // Default label
                                 'rejected' => 'Ditolak',
                                 'checked_in' => 'Sudah Check-in',
                                 'completed' => 'Selesai',
                                 'cancelled' => 'Dibatalkan',
                             ];
+                            
+                            $displayStatus = $statusLabels[$reservation->status] ?? $reservation->status;
+                            $statusColor = $statusColors[$reservation->status] ?? 'bg-gray-500';
+
+                            // Dynamic Label for Approved status based on Payment
+                            if ($reservation->status === 'approved') {
+                                if (!$reservation->payment) {
+                                    $displayStatus = 'Menunggu Pembayaran';
+                                    $statusColor = 'bg-blue-500';
+                                } elseif ($reservation->payment->status === 'pending') {
+                                    $displayStatus = 'Menunggu Verifikasi Pembayaran';
+                                    $statusColor = 'bg-yellow-500';
+                                } elseif ($reservation->payment->status === 'verified') {
+                                    $displayStatus = 'Lunas / Siap Check-in';
+                                    $statusColor = 'bg-green-500';
+                                }
+                            }
                         @endphp
-                        <span class="{{ $statusColors[$reservation->status] ?? 'bg-gray-500' }} px-4 py-2 rounded-full text-sm font-semibold">
-                            {{ $statusLabels[$reservation->status] ?? $reservation->status }}
+                        <span class="{{ $statusColor }} px-4 py-2 rounded-full text-white text-sm font-semibold shadow-sm">
+                            {{ $displayStatus }}
                         </span>
                     </div>
                 </div>
@@ -63,7 +80,9 @@
                     <div class="grid grid-cols-2 gap-4 text-sm mb-6">
                         <div>
                             <span class="text-gray-500">Nama Tamu:</span>
-                            <p class="font-medium">{{ $reservation->guest_name }}</p>
+                            <p class="font-medium">
+                                {{ is_array($reservation->guest_name) ? implode(', ', $reservation->guest_name) : $reservation->guest_name }}
+                            </p>
                         </div>
                         <div>
                             <span class="text-gray-500">Tipe:</span>
@@ -114,7 +133,7 @@
                                 </a>
                             @elseif($reservation->payment && $reservation->payment->status === 'pending')
                                 <span class="bg-yellow-100 text-yellow-700 px-4 py-2 rounded-lg text-sm font-medium">
-                                    Menunggu Verifikasi
+                                    Menunggu Verifikasi Pembayaran
                                 </span>
                             @elseif($reservation->payment && $reservation->payment->status === 'verified')
                                 <span class="bg-green-100 text-green-700 px-4 py-2 rounded-lg text-sm font-medium">

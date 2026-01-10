@@ -96,7 +96,7 @@ class UnitKerjaDashboardController extends Controller
         $checkIn = Carbon::parse($validated['check_in_date']);
         $checkOut = Carbon::parse($validated['check_out_date']);
         $totalNights = $checkIn->diffInDays($checkOut);
-        $pricePerNight = $room->price_internal; // Internal price for unit kerja
+        $pricePerNight = $room->price; // Use standard price (discount via coupon in future)
         $totalPrice = $totalNights * $pricePerNight;
 
         $reservation = Reservation::create([
@@ -188,7 +188,7 @@ class UnitKerjaDashboardController extends Controller
 
         DB::transaction(function () use ($rooms, $validated, $unitKerja, $checkIn, $checkOut, $totalNights) {
             foreach ($rooms as $room) {
-                $pricePerNight = $room->price_internal;
+                $pricePerNight = $room->price; // Use standard price (discount via coupon in future)
                 $totalPrice = $totalNights * $pricePerNight;
 
                 Reservation::create([

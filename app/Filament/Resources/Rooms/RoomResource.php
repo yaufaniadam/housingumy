@@ -24,9 +24,9 @@ class RoomResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
-    protected static ?string $modelLabel = 'Kamar';
+    protected static ?string $modelLabel = 'Ruangan';
 
-    protected static ?string $pluralModelLabel = 'Kamar';
+    protected static ?string $pluralModelLabel = 'Ruangan';
 
     protected static ?string $recordTitleAttribute = 'room_number';
 

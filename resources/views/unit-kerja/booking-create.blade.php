@@ -24,7 +24,7 @@
                     
                     <div class="border-t mt-4 pt-4">
                         <p class="text-sm text-purple-600 font-medium">Harga Internal</p>
-                        <p class="text-2xl font-bold text-gray-800">Rp {{ number_format($room->price_internal, 0, ',', '.') }}</p>
+                        <p class="text-2xl font-bold text-gray-800">Rp {{ number_format($room->price, 0, ',', '.') }}</p>
                         <p class="text-xs text-gray-500">per malam</p>
                     </div>
                 </div>
