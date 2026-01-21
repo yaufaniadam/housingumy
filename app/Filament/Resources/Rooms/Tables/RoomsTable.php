@@ -32,30 +32,30 @@ class RoomsTable
                     ->sortable()
                     ->badge()
                     ->color('primary'),
-                TextColumn::make('room_type')
+                TextColumn::make('roomType.name')
                     ->label('Tipe')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'single' => 'gray',
-                        'double' => 'info',
-                        'suite' => 'warning',
-                        default => 'gray',
-                    })
-                    ->formatStateUsing(fn (string $state): string => ucfirst($state)),
+                    ->color('info')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('floor')
                     ->label('Lantai')
                     ->numeric()
                     ->sortable()
                     ->alignCenter(),
-                TextColumn::make('capacity')
+                TextColumn::make('effective_capacity')
                     ->label('Kapasitas')
                     ->suffix(' org')
                     ->numeric()
-                    ->sortable()
-                    ->alignCenter(),
-                TextColumn::make('price')
+                    ->alignCenter()
+                    ->state(fn ( $record) => $record->effective_capacity),
+                TextColumn::make('effective_price')
                     ->label('Tarif')
                     ->money('IDR')
+                    ->state(fn ( $record) => $record->effective_price),
+                \Filament\Tables\Columns\IconColumn::make('is_daily_rentable')
+                    ->label('Sewa Harian')
+                    ->boolean()
                     ->sortable(),
                 TextColumn::make('status')
                     ->label('Status')
@@ -86,15 +86,11 @@ class RoomsTable
                     ->relationship('building', 'name')
                     ->searchable()
                     ->preload(),
-                SelectFilter::make('room_type')
+                SelectFilter::make('room_type_id')
                     ->label('Tipe Kamar')
-                    ->options([
-                        'dormitory_single' => 'Kamar Single',
-                        'dormitory_double' => 'Kamar Double',
-                        'dormitory_suite' => 'Kamar Suite',
-                        'office' => 'Kantor',
-                        'classroom' => 'Kelas',
-                    ]),
+                    ->relationship('roomType', 'name')
+                    ->searchable()
+                    ->preload(),
                 SelectFilter::make('status')
                     ->label('Status')
                     ->options([

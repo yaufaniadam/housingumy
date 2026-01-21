@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Housing UMY - Registration</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#93251f",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#201312",
+                        "brand-green": "#004029",
+                        "brand-gold": "#F7B800",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for better aesthetic */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #e4dddc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#171212] dark:text-white font-display min-h-screen flex flex-col overflow-x-hidden group/design-root">
+<!-- Navbar -->
+<header class="w-full bg-white dark:bg-[#1e1e1e] border-b border-[#f4f1f1] dark:border-[#333] px-6 py-4 lg:px-40 flex items-center justify-between sticky top-0 z-50">
+<div class="flex items-center gap-3">
+<div class="size-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">apartment</span>
+</div>
+<h2 class="text-primary dark:text-white text-xl font-bold tracking-tight">Housing UMY</h2>
+</div>
+<div class="hidden sm:flex items-center gap-4 text-sm font-medium text-[#171212] dark:text-gray-200">
+<a class="hover:text-primary transition-colors" href="#">Bantuan</a>
+<div class="h-4 w-px bg-gray-300"></div>
+<div class="flex items-center gap-1 text-[#856866] cursor-pointer hover:text-primary">
+<span class="material-symbols-outlined text-lg">language</span>
+<span>ID</span>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex items-center justify-center py-12 px-4 sm:px-6">
+<div class="w-full max-w-[540px]">
+<!-- Registration Card -->
+<div class="bg-white dark:bg-[#1e1e1e] rounded-xl shadow-xl shadow-black/5 border border-[#e4dddc] dark:border-[#333] overflow-hidden relative">
+<!-- Decorative Top Border (Gold) -->
+<div class="absolute top-0 left-0 w-full h-1.5 bg-brand-gold"></div>
+<div class="p-8 sm:p-10">
+<!-- Heading Section -->
+<div class="mb-8 text-center">
+<h1 class="text-[#171212] dark:text-white text-3xl font-bold tracking-tight mb-3">Buat Akun Baru</h1>
+<p class="text-[#856866] dark:text-gray-400 text-sm leading-relaxed max-w-sm mx-auto">
+                            Isi formulir di bawah ini untuk memesan hunian nyaman Anda di lingkungan kampus.
+                        </p>
+</div>
+<!-- Form -->
+<form action="#" class="flex flex-col gap-5">
+<!-- Nama Lengkap -->
+<div class="flex flex-col gap-2">
+<label class="text-[#171212] dark:text-gray-200 text-base font-medium">Nama Lengkap</label>
+<input class="w-full h-12 px-4 rounded-lg bg-white dark:bg-[#2a2a2a] border border-[#e4dddc] dark:border-[#444] text-[#171212] dark:text-white placeholder:text-[#856866] dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-base" placeholder="Masukkan nama lengkap Anda" type="text"/>
+</div>
+<!-- Email -->
+<div class="flex flex-col gap-2">
+<label class="text-[#171212] dark:text-gray-200 text-base font-medium">Email</label>
+<div class="relative">
+<input class="w-full h-12 px-4 rounded-lg bg-white dark:bg-[#2a2a2a] border border-[#e4dddc] dark:border-[#444] text-[#171212] dark:text-white placeholder:text-[#856866] dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-base" placeholder="contoh@email.com" type="email"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-[#856866] pointer-events-none text-[20px]">mail</span>
+</div>
+</div>
+<!-- No. Handphone -->
+<div class="flex flex-col gap-2">
+<label class="text-[#171212] dark:text-gray-200 text-base font-medium">No. Handphone</label>
+<div class="relative">
+<input class="w-full h-12 px-4 rounded-lg bg-white dark:bg-[#2a2a2a] border border-[#e4dddc] dark:border-[#444] text-[#171212] dark:text-white placeholder:text-[#856866] dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-base" placeholder="0812..." type="tel"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-[#856866] pointer-events-none text-[20px]">phone_iphone</span>
+</div>
+</div>
+<!-- Password Fields Row -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+<!-- Password -->
+<div class="flex flex-col gap-2">
+<label class="text-[#171212] dark:text-gray-200 text-base font-medium flex items-center gap-1">
+                                    Kata Sandi
+                                    <span class="material-symbols-outlined text-brand-gold text-lg cursor-help" title="Minimal 8 karakter, kombinasi huruf dan angka">info</span>
+</label>
+<div class="relative">
+<input class="w-full h-12 px-4 rounded-lg bg-white dark:bg-[#2a2a2a] border border-[#e4dddc] dark:border-[#444] text-[#171212] dark:text-white placeholder:text-[#856866] dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-base pr-10" placeholder="••••••••" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-[#856866] hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility_off</span>
+</button>
+</div>
+</div>
+<!-- Confirm Password -->
+<div class="flex flex-col gap-2">
+<label class="text-[#171212] dark:text-gray-200 text-base font-medium">Konfirmasi</label>
+<div class="relative">
+<input class="w-full h-12 px-4 rounded-lg bg-white dark:bg-[#2a2a2a] border border-[#e4dddc] dark:border-[#444] text-[#171212] dark:text-white placeholder:text-[#856866] dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-base pr-10" placeholder="••••••••" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-[#856866] hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility_off</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Terms & Conditions Checkbox -->
+<div class="flex items-start gap-3 mt-2">
+<div class="flex items-center h-6">
+<input class="size-5 rounded border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-brand-green focus:ring-2 focus:ring-brand-green/30 focus:ring-offset-0 cursor-pointer" id="terms" name="terms" type="checkbox"/>
+</div>
+<div class="text-sm leading-6">
+<label class="font-normal text-gray-600 dark:text-gray-300" for="terms">
+                                    Saya telah membaca dan menyetujui 
+                                    <a class="font-semibold text-brand-green hover:underline" href="#">Syarat dan Ketentuan</a> 
+                                    serta 
+                                    <a class="font-semibold text-brand-green hover:underline" href="#">Kebijakan Privasi</a> 
+                                    Housing UMY.
+                                </label>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full mt-2 h-12 bg-primary hover:bg-[#7a1e19] active:bg-[#601814] text-white text-base font-bold rounded-lg shadow-lg shadow-primary/20 transition-all duration-200 flex items-center justify-center gap-2">
+<span>Daftar Sekarang</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</form>
+<!-- Login Link -->
+<div class="mt-8 pt-6 border-t border-[#f4f1f1] dark:border-[#333] text-center">
+<p class="text-[#856866] dark:text-gray-400 text-sm">
+                            Sudah punya akun? 
+                            <a class="font-bold text-primary hover:text-brand-gold transition-colors inline-flex items-center gap-1" href="#">
+                                Masuk di sini
+                            </a>
+</p>
+</div>
+</div>
+</div>
+<!-- Footer Small Links -->
+<div class="mt-8 flex justify-center gap-6 text-xs text-[#856866] dark:text-gray-500">
+<a class="hover:text-primary transition-colors" href="#">Pusat Bantuan</a>
+<a class="hover:text-primary transition-colors" href="#">Hubungi Kami</a>
+<span>© 2024 Housing UMY</span>
+</div>
+</div>
+</main>
+</body></html>

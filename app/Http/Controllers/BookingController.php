@@ -16,10 +16,11 @@ class BookingController extends Controller
     {
         $buildings = Building::where('is_active', true)
             ->where('show_in_search', true)
-            ->with(['rooms' => function ($query) {
-                $query->where('status', 'available')
-                    ->where('room_type', 'like', 'dormitory_%')
-                    ->with('facilities');
+            ->with(['roomTypes' => function ($query) {
+                 // You might want to filter room types that have available rooms?
+                 // or just show all types. Let's show all types but maybe count available rooms.
+                 // For now, simple conversion.
+                 $query->with('facilities');
             }])
             ->get();
 
@@ -28,8 +29,9 @@ class BookingController extends Controller
 
     public function rooms(Request $request)
     {
-        $query = Room::where('status', 'available')
-            ->where('room_type', 'like', 'dormitory_%')
+        // We query RoomTypes now, not Rooms directly for the listing
+        $query = \App\Models\RoomType::query()
+            ->where('is_public', true)
             ->whereHas('building', function ($q) {
                 $q->where('is_active', true)->where('show_in_search', true);
             });
@@ -38,48 +40,52 @@ class BookingController extends Controller
             $query->where('building_id', $request->building_id);
         }
 
+        // RoomType search
         if ($request->room_type) {
-            $query->where('room_type', $request->room_type);
+             // If searching by slug/name strings from potential query params
+             $query->where('name', 'like', '%' . $request->room_type . '%');
         }
 
-        if ($request->check_in && $request->check_out) {
-            $checkIn = Carbon::parse($request->check_in);
-            $checkOut = Carbon::parse($request->check_out);
-
-            $query->whereDoesntHave('reservations', function ($q) use ($checkIn, $checkOut) {
-                $q->whereIn('status', ['approved', 'checked_in'])
-                    ->where(function ($q2) use ($checkIn, $checkOut) {
-                        $q2->whereBetween('check_in_date', [$checkIn, $checkOut])
-                            ->orWhereBetween('check_out_date', [$checkIn, $checkOut])
-                            ->orWhere(function ($q3) use ($checkIn, $checkOut) {
-                                $q3->where('check_in_date', '<=', $checkIn)
-                                    ->where('check_out_date', '>=', $checkOut);
-                            });
-                    });
-            });
+        if ($request->total_guests) {
+            $query->where('capacity', '>=', $request->total_guests);
         }
+        
+        // Eager load relationships
+        $roomTypes = $query->with(['building', 'facilities'])->get();
 
-        // Group rooms by type and aggregate data
-        $roomTypes = $query->with(['building', 'facilities'])
-            ->get()
-            ->groupBy('room_type')
-            ->map(function ($rooms, $type) {
-                $firstRoom = $rooms->first();
-                return [
-                    'room_type' => $type,
-                    'available_count' => $rooms->count(),
-                    'building_name' => $firstRoom->building->name,
-                    'building_id' => $firstRoom->building_id,
-                    'price' => $firstRoom->price,
-                    'capacity' => $firstRoom->capacity,
-                    'floor' => $firstRoom->floor,
-                    'facilities' => $firstRoom->facilities,
-                    'description' => $firstRoom->description,
-                    'image' => $firstRoom->image,
-                    // Store first available room ID for booking
-                    'sample_room_id' => $firstRoom->id,
-                ];
-            });
+        // Calculate availability for each RoomType
+        // This is a bit more expensive but necessary for accurate counts
+        $roomTypes->each(function ($type) use ($request) {
+            $roomQuery = $type->rooms()
+                ->where('status', 'available')
+                ->where('is_daily_rentable', true);
+
+            if ($request->check_in && $request->check_out) {
+                $checkIn = Carbon::parse($request->check_in);
+                $checkOut = Carbon::parse($request->check_out);
+
+                $roomQuery->whereDoesntHave('reservations', function ($q) use ($checkIn, $checkOut) {
+                    $q->whereIn('status', ['approved', 'checked_in'])
+                        ->where(function ($q2) use ($checkIn, $checkOut) {
+                            $q2->whereBetween('check_in_date', [$checkIn, $checkOut])
+                                ->orWhereBetween('check_out_date', [$checkIn, $checkOut])
+                                ->orWhere(function ($q3) use ($checkIn, $checkOut) {
+                                    $q3->where('check_in_date', '<=', $checkIn)
+                                        ->where('check_out_date', '>=', $checkOut);
+                                });
+                        });
+                });
+            }
+            
+            $type->available_count = $roomQuery->count();
+            // We need a sample room for booking logic if needed, or just use the type ID
+            // Ideally we book by RoomType now? No, system books specific room.
+            // We'll pick a random available room later.
+            $type->sample_room_id = $roomQuery->first()?->id; 
+        });
+        
+        // Filter out types with no availability if desired?
+        // $roomTypes = $roomTypes->filter(fn($t) => $t->available_count > 0);
 
         $buildings = Building::where('is_active', true)
             ->where('show_in_search', true)
@@ -91,35 +97,34 @@ class BookingController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'room_type' => 'required|string',
+            'room_type' => 'required|exists:room_types,id', // Changed input to be an ID
             'building_id' => 'required|exists:buildings,id',
         ]);
 
         $checkIn = $request->check_in ?? now()->addDay()->format('Y-m-d');
         $checkOut = $request->check_out ?? now()->addDays(2)->format('Y-m-d');
 
-        // Get a sample room from this type for displaying info
-        $sampleRoom = Room::where('room_type', $request->room_type)
-            ->where('building_id', $request->building_id)
-            ->where('status', 'available')
-            ->whereHas('building', function ($q) {
-                $q->where('is_active', true)->where('show_in_search', true);
-            })
-            ->with(['building', 'facilities'])
-            ->first();
+        // Fetch RoomType details
+        $roomType = \App\Models\RoomType::with(['building', 'facilities'])->findOrFail($request->room_type);
+        
+        // We use the roomType object as the "sample room" for display purposes
+        // Adapting the view might be needed if it expects a Room object specifically, 
+        // but RoomType has similar attributes (price, capacity, description, facilities, images).
+        // Let's pass $roomType as $sampleRoom for compatibility, or update view variable name.
+        // The view likely accesses $sampleRoom->price, $sampleRoom->facilities etc.
+        // RoomType matches this signature.
 
-        if (!$sampleRoom) {
-            return redirect()->route('booking.rooms')
-                ->with('error', 'Tipe kamar tidak tersedia.');
-        }
-
-        return view('booking.create', compact('sampleRoom', 'checkIn', 'checkOut'));
+        return view('booking.create', [
+            'sampleRoom' => $roomType, 
+            'checkIn' => $checkIn, 
+            'checkOut' => $checkOut
+        ]);
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'room_type' => 'required|string',
+            'room_type' => 'required|exists:room_types,id',
             'building_id' => 'required|exists:buildings,id',
             'guest_names' => 'required|array|min:1',
             'guest_names.*' => 'required|string|max:255',
@@ -132,11 +137,15 @@ class BookingController extends Controller
 
         $checkIn = Carbon::parse($validated['check_in_date']);
         $checkOut = Carbon::parse($validated['check_out_date']);
+        $roomTypeId = $validated['room_type'];
 
-        // Find an available room from the selected type and building
-        $availableRoom = Room::where('room_type', $validated['room_type'])
+        // Find an available room from the selected RoomType
+        $availableRoom = Room::where('room_type_id', $roomTypeId)
+             // building_id is theoretically redundant if room_type is scoped to building, but safe to keep
             ->where('building_id', $validated['building_id'])
             ->where('status', 'available')
+            ->where('is_daily_rentable', true)
+             // Active building check
             ->whereHas('building', function ($q) {
                 $q->where('is_active', true)->where('show_in_search', true);
             })
@@ -160,7 +169,9 @@ class BookingController extends Controller
         }
 
         $totalNights = $checkIn->diffInDays($checkOut);
-        $pricePerNight = $availableRoom->price;
+        // Use the Category Price for public bookings to ensure consistency with the displayed price.
+        // Room overrides are ignored here to prevent "bill shock" if a specific room has a different price.
+        $pricePerNight = $availableRoom->roomType->price;
         $totalPrice = $totalNights * $pricePerNight;
 
         $user = Auth::guard('customer')->user();
@@ -256,5 +267,103 @@ class BookingController extends Controller
     {
         $reservation->load(['payment']);
         return view('booking.payment-success', compact('reservation'));
+    }
+
+    /**
+     * Show building detail page with room types
+     */
+    public function buildingDetail(Building $building)
+    {
+        if (!$building->is_active || !$building->show_in_search) {
+            abort(404);
+        }
+
+        // Load RoomTypes with basic info and available room count
+        $roomTypes = $building->roomTypes()
+             ->where('is_public', true)
+             ->with(['facilities']) // Add other relations if needed
+             ->get()
+             ->map(function ($type) {
+                 // Calculate availability
+                 $availableCount = $type->rooms()
+                     ->where('status', 'available')
+                     ->where('is_daily_rentable', true)
+                     ->count();
+                 
+                 // Map to format expected by view (similar to listing)
+                 return [
+                     'id' => $type->id, // Add ID for linking
+                     'room_type' => $type->name, // View might expect string name
+                     'room_type_label' => $type->name, // Or use name directly
+                     'available_count' => $availableCount,
+                     'price' => $type->price,
+                     'capacity' => $type->capacity,
+                     'facilities' => $type->facilities,
+                     'description' => $type->description,
+                     'image' => $type->images ? ($type->images[0] ?? null) : null, // Handle array
+                 ];
+             });
+
+        return view('booking.building-detail', compact('building', 'roomTypes'));
+
+        return view('booking.building-detail', compact('building', 'roomTypes'));
+    }
+
+    /**
+     * Show room type detail page
+     */
+    public function roomDetail(Building $building, string $roomType)
+    {
+        if (!$building->is_active || !$building->show_in_search) {
+            abort(404);
+        }
+
+        // $roomType could be ID (new way) or string Name (old way/search friendly)
+        // Let's try to interpret it.
+        $type = null;
+        if (is_numeric($roomType)) {
+             $type = \App\Models\RoomType::find($roomType);
+        } else {
+             // Fallback search by name
+             $type = \App\Models\RoomType::where('building_id', $building->id)
+                 ->where('name', $roomType)
+                 ->first();
+        }
+
+        if (!$type) {
+            abort(404);
+        }
+
+        // Mock sample room from type data
+        $sampleRoom = $type; 
+        $sampleRoom->facilities = $type->facilities; // load relations if not loaded?
+        $type->load('facilities');
+        
+        $availableCount = $type->rooms()->where('status', 'available')->count();
+        $roomTypeLabel = $type->name;
+
+        // View expects 'roomType' variable which was string. passing object might verify.
+        // Let's pass 'roomType' as the OBJECT, but view might expect string.
+        // Check view `booking.room-detail` later.
+        
+        return view('booking.room-detail', [
+            'building' => $building, 
+            'sampleRoom' => $sampleRoom, 
+            'roomType' => $type->name, // Pass name as string for legacy or display? Or keep original arg? View uses $roomTypeId for booking.
+            'roomTypeId' => $type->id,
+            'roomTypeLabel' => \Illuminate\Support\Str::ucfirst(str_replace('_', ' ', $type->name)),
+            'availableCount' => $availableCount
+        ]);
+    }
+
+    /**
+     * Get human-readable room type label
+     */
+    /**
+     * Get human-readable room type label - Deprecated/Helper
+     */
+    private function getRoomTypeLabel(string $type): string
+    {
+         return ucwords($type);
     }
 }

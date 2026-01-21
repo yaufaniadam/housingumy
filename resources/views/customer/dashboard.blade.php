@@ -1,161 +1,207 @@
-@extends('layouts.public')
+@extends('layouts.customer')
 
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Welcome Header -->
-    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-8 text-white mb-8">
-        <div class="flex items-center justify-between">
-            <div>
-                <h1 class="text-3xl font-bold">Halo, {{ Auth::guard('customer')->user()->name }}! 👋</h1>
-                <p class="text-blue-100 mt-1">Kelola reservasi Anda di sini</p>
-            </div>
-            <a href="{{ route('booking.rooms') }}" 
-               class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition shadow-lg">
-                + Booking Baru
+<div class="container mx-auto max-w-7xl p-6 lg:p-10 space-y-8">
+    <!-- Page Heading -->
+    <header class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
+                Halo, {{ explode(' ', Auth::guard('customer')->user()->name)[0] }}!
+            </h1>
+            <p class="text-slate-500 dark:text-slate-400 text-lg">Selamat datang kembali di Housing UMY.</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="{{ route('booking.rooms') }}" class="h-10 px-4 bg-primary text-white rounded-full flex items-center gap-2 shadow-sm border border-transparent hover:bg-primary/90 transition-colors">
+                <span class="material-symbols-outlined text-[20px]">add</span>
+                <span class="text-sm font-bold">Booking Baru</span>
             </a>
-        </div>
-    </div>
-
-    <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div class="bg-white rounded-xl p-5 shadow-md">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                    </svg>
-                </div>
-                <div>
-                    <p class="text-2xl font-bold text-gray-800">{{ $stats['total'] }}</p>
-                    <p class="text-gray-500 text-sm">Total Reservasi</p>
-                </div>
+            {{-- Loyalty Points Hidden
+            <div class="h-10 px-4 bg-white dark:bg-white/10 rounded-full flex items-center gap-2 shadow-sm border border-slate-200 dark:border-slate-700">
+                <span class="material-symbols-outlined text-secondary">workspace_premium</span>
+                <span class="text-sm font-bold text-slate-900 dark:text-white">0 Poin</span>
             </div>
+            --}}
         </div>
+    </header>
 
-        <div class="bg-white rounded-xl p-5 shadow-md">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                </div>
-                <div>
-                    <p class="text-2xl font-bold text-gray-800">{{ $stats['pending'] }}</p>
-                    <p class="text-gray-500 text-sm">Menunggu</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-xl p-5 shadow-md">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                </div>
-                <div>
-                    <p class="text-2xl font-bold text-gray-800">{{ $stats['active'] }}</p>
-                    <p class="text-gray-500 text-sm">Aktif</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-xl p-5 shadow-md">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>
-                </div>
-                <div>
-                    <p class="text-2xl font-bold text-gray-800">{{ $stats['completed'] }}</p>
-                    <p class="text-gray-500 text-sm">Selesai</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Reservations List -->
-    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-        <div class="p-6 border-b">
-            <h2 class="text-xl font-bold text-gray-800">Reservasi Saya</h2>
-        </div>
-
-        @if($reservations->isEmpty())
-            <div class="p-12 text-center">
-                <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                </svg>
-                <h3 class="text-lg font-semibold text-gray-600 mb-2">Belum ada reservasi</h3>
-                <p class="text-gray-500 mb-4">Mulai booking kamar sekarang!</p>
-                <a href="{{ route('booking.rooms') }}" class="inline-flex items-center bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
-                    Cari Kamar
+    <!-- Dashboard Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        <!-- Left Column: Reservations (Takes 2 cols) -->
+        <div class="lg:col-span-2 space-y-6">
+            <div class="flex items-center justify-between">
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white">Reservasi Saya</h2>
+                 <!-- 
+                <a class="text-sm font-semibold text-primary hover:text-primary/80 flex items-center gap-1" href="#">
+                    Lihat Semua <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
                 </a>
+                -->
             </div>
-        @else
-            <div class="divide-y">
-                @foreach($reservations as $reservation)
-                    <div class="p-6 hover:bg-gray-50 transition">
-                        <div class="flex items-start justify-between">
-                            <div class="flex gap-4">
-                                <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold">
-                                    {{ substr($reservation->room->room_number, 0, 3) }}
+
+            @if($reservations->isEmpty())
+                <div class="bg-white dark:bg-[#1a0f0e] rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 p-12 text-center">
+                    <span class="material-symbols-outlined text-[64px] text-slate-300 mb-4">calendar_month</span>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Belum ada reservasi</h3>
+                    <p class="text-slate-500 dark:text-slate-400 mb-6">Anda belum melakukan pemesanan kamar apapun saat ini.</p>
+                    <a href="{{ route('booking.rooms') }}" class="inline-flex items-center justify-center bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary/90 transition-colors">
+                        Mulai Booking Sekarang
+                    </a>
+                </div>
+            @else
+                <div class="space-y-4">
+                    @foreach($reservations as $reservation)
+                        <!-- Reservation Card -->
+                        <div class="bg-white dark:bg-[#1a0f0e] rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden flex flex-col md:flex-row transition-shadow hover:shadow-md group">
+                            <!-- Image Placeholder -->
+                            <div class="w-full md:w-64 h-48 md:h-auto shrink-0 bg-slate-200 relative overflow-hidden">
+                                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" 
+                                     style="background-image: url('{{ $reservation->room->building->image_url ?? asset('images/building-placeholder.jpg') }}');">
                                 </div>
-                                <div>
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <span class="font-mono font-bold text-gray-800">{{ $reservation->reservation_code }}</span>
-                                        @php
-                                            $statusColors = [
-                                                'pending' => 'bg-yellow-100 text-yellow-700',
-                                                'approved' => 'bg-green-100 text-green-700',
-                                                'rejected' => 'bg-red-100 text-red-700',
-                                                'checked_in' => 'bg-blue-100 text-blue-700',
-                                                'completed' => 'bg-gray-100 text-gray-700',
-                                                'cancelled' => 'bg-red-100 text-red-700',
-                                            ];
-                                            $statusLabels = [
-                                                'pending' => 'Pending',
-                                                'approved' => 'Disetujui',
-                                                'rejected' => 'Ditolak',
-                                                'checked_in' => 'Checked-in',
-                                                'completed' => 'Selesai',
-                                                'cancelled' => 'Dibatalkan',
-                                            ];
-                                        @endphp
-                                        <span class="px-2 py-0.5 rounded-full text-xs font-medium {{ $statusColors[$reservation->status] ?? 'bg-gray-100 text-gray-700' }}">
-                                            {{ $statusLabels[$reservation->status] ?? $reservation->status }}
-                                        </span>
-                                    </div>
-                                    <p class="text-gray-600">{{ $reservation->room->room_number }} - {{ $reservation->room->building->name }}</p>
-                                    <p class="text-sm text-gray-500 mt-1">
-                                        {{ \Carbon\Carbon::parse($reservation->check_in_date)->format('d M Y') }} - 
-                                        {{ \Carbon\Carbon::parse($reservation->check_out_date)->format('d M Y') }}
-                                        ({{ $reservation->total_nights }} malam)
-                                    </p>
+                                <div class="absolute top-3 left-3">
+                                    @php
+                                        $statusClass = match($reservation->status) {
+                                            'pending' => 'bg-[#F7B800] text-white',
+                                            'approved' => 'bg-blue-600 text-white',
+                                            'checked_in' => 'bg-[#004029] text-white', // Success Green
+                                            'completed' => 'bg-slate-500 text-white',
+                                            'cancelled', 'rejected' => 'bg-red-600 text-white',
+                                            default => 'bg-slate-500 text-white',
+                                        };
+                                        $statusLabel = match($reservation->status) {
+                                            'pending' => 'Menunggu Pembayaran',
+                                            'approved' => 'Disetujui',
+                                            'checked_in' => 'Aktif',
+                                            'completed' => 'Selesai',
+                                            'cancelled' => 'Dibatalkan',
+                                            'rejected' => 'Ditolak',
+                                            default => ucfirst($reservation->status),
+                                        };
+                                        $statusIcon = match($reservation->status) {
+                                            'pending' => 'schedule',
+                                            'approved' => 'check_circle',
+                                            'checked_in' => 'home',
+                                            'completed' => 'history',
+                                            'cancelled', 'rejected' => 'cancel',
+                                            default => 'info',
+                                        };
+                                    @endphp
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold {{ $statusClass }} shadow-sm">
+                                        <span class="material-symbols-outlined text-[14px]">{{ $statusIcon }}</span>
+                                        {{ $statusLabel }}
+                                    </span>
                                 </div>
                             </div>
-                            <div class="text-right">
-                                <p class="text-lg font-bold text-blue-600">Rp {{ number_format($reservation->total_price, 0, ',', '.') }}</p>
-                                <div class="flex gap-2 mt-2">
-                                    @if($reservation->status === 'approved' && !$reservation->payment)
-                                        <a href="{{ route('booking.payment', $reservation) }}" 
-                                           class="text-sm bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition">
-                                            Bayar
+                            
+                            <!-- Content -->
+                            <div class="p-6 flex flex-col flex-1 justify-between">
+                                <div>
+                                    <div class="flex justify-between items-start mb-2">
+                                        <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">
+                                            {{ $reservation->room->building->name }}
+                                        </h3>
+                                        <p class="text-lg font-bold text-primary">
+                                            Rp {{ number_format($reservation->total_price, 0, ',', '.') }}
+                                        </p>
+                                    </div>
+                                    <div class="space-y-2 mb-4">
+                                        <div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                                            <span class="material-symbols-outlined text-[18px]">calendar_month</span>
+                                            <span>
+                                                {{ \Carbon\Carbon::parse($reservation->check_in_date)->format('d M') }} - 
+                                                {{ \Carbon\Carbon::parse($reservation->check_out_date)->format('d M Y') }}
+                                                ({{ $reservation->total_nights }} Malam)
+                                            </span>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                                            <span class="material-symbols-outlined text-[18px]">location_on</span>
+                                            <span>Kamar {{ $reservation->room->room_number }}</span>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                                            <span class="material-symbols-outlined text-[18px]">confirmation_number</span>
+                                            <span class="font-mono">{{ $reservation->reservation_code }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 mt-auto pt-4 border-t border-slate-100 dark:border-slate-800">
+                                    @if($reservation->status === 'pending')
+                                        <a href="{{ route('booking.payment', $reservation) }}" class="flex-1 bg-primary hover:bg-primary/90 text-center text-white text-sm font-semibold py-2.5 px-4 rounded-lg transition-colors shadow-sm shadow-primary/30">
+                                            Bayar Sekarang
                                         </a>
                                     @endif
-                                    <a href="{{ route('customer.reservation', $reservation) }}" 
-                                       class="text-sm bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition">
+                                    
+                                    <a href="{{ route('customer.reservation', $reservation) }}" class="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm font-semibold hover:bg-slate-50 dark:hover:bg-white/5 transition-colors text-center {{ $reservation->status !== 'pending' ? 'flex-1' : '' }}">
                                         Detail
                                     </a>
                                 </div>
                             </div>
                         </div>
+                    @endforeach
+                </div>
+            @endif
+        </div>
+
+        <!-- Right Column: Profile Summary (Takes 1 col) -->
+        <div class="lg:col-span-1 space-y-6">
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Ringkasan Profil</h2>
+            <div class="bg-white dark:bg-[#1a0f0e] rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 p-6 flex flex-col items-center text-center">
+                <div class="relative mb-4">
+                    <div class="size-24 rounded-full bg-slate-200 bg-cover bg-center border-4 border-white dark:border-[#2d201e] shadow-md flex items-center justify-center text-slate-400">
+                        <span class="material-symbols-outlined text-[48px]">person</span>
                     </div>
-                @endforeach
+                    <button class="absolute bottom-0 right-0 p-1.5 bg-primary text-white rounded-full border-2 border-white dark:border-[#2d201e] shadow-sm hover:bg-primary/90 transition-colors">
+                        <span class="material-symbols-outlined text-[16px]">edit</span>
+                    </button>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white">{{ Auth::guard('customer')->user()->name }}</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">{{ Auth::guard('customer')->user()->email }}</p>
+                
+                {{-- Loyalty Section Hidden 
+                <div class="w-full bg-slate-50 dark:bg-white/5 rounded-xl p-4 border border-slate-100 dark:border-slate-800">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-secondary">Poin Loyalitas</span>
+                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400">Silver Member</span>
+                    </div>
+                    <div class="flex items-end gap-1 mb-3">
+                        <span class="text-2xl font-black text-slate-900 dark:text-white">0</span>
+                        <span class="text-sm font-medium text-slate-400 mb-1">/ 1,000</span>
+                    </div>
+                    <!-- Progress Bar -->
+                    <div class="w-full h-2 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden">
+                        <div class="h-full bg-secondary rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-3 text-left">
+                        Kumpulkan poin dengan melakukan transaksi booking.
+                    </p>
+                </div>
+                --}}
+
+                <div class="w-full grid grid-cols-2 gap-3 mt-4">
+                    <button class="flex flex-col items-center justify-center p-3 rounded-xl bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors gap-1 border border-transparent hover:border-slate-200 dark:hover:border-slate-700">
+                        <span class="material-symbols-outlined text-primary">history</span>
+                        <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Riwayat</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center p-3 rounded-xl bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors gap-1 border border-transparent hover:border-slate-200 dark:hover:border-slate-700">
+                        <span class="material-symbols-outlined text-primary">settings</span>
+                        <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Pengaturan</span>
+                    </button>
+                </div>
             </div>
-        @endif
+
+            <!-- Quick Help Card -->
+            <div class="bg-primary rounded-2xl shadow-lg shadow-primary/20 p-6 text-white relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 text-white/10">
+                    <span class="material-symbols-outlined text-[120px]">support_agent</span>
+                </div>
+                <div class="relative z-10">
+                    <h3 class="text-lg font-bold mb-2">Butuh Bantuan?</h3>
+                    <p class="text-white/80 text-sm mb-4">Tim support kami siap membantu masalah reservasi Anda 24/7.</p>
+                    <button class="bg-white text-primary text-sm font-bold py-2 px-4 rounded-lg hover:bg-slate-100 transition-colors w-full">
+                        Hubungi Admin
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection

@@ -33,7 +33,18 @@ class ReservationsTable
                     ->label('Nama Tamu')
                     ->searchable()
                     ->sortable()
-                    ->formatStateUsing(fn ($state) => is_array($state) ? implode(', ', $state) : $state),
+                    ->formatStateUsing(function ($state) {
+                        if (is_array($state)) {
+                            return implode(', ', $state);
+                        }
+                        if (is_string($state)) {
+                            $decoded = json_decode($state, true);
+                            if (is_array($decoded)) {
+                                return implode(', ', $decoded);
+                            }
+                        }
+                        return $state;
+                    }),
                 TextColumn::make('guest_type')
                     ->label('Tipe')
                     ->badge()

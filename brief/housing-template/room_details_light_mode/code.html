@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Room Details - Housing UMY</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#9c1d16",
+                        "brand-maroon": "#93251F",
+                        "brand-gold": "#F7B800",
+                        "brand-green": "#004029",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#211211",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#171211]">
+<div class="relative flex min-h-screen flex-col">
+<!-- Header -->
+<header class="sticky top-0 z-50 w-full bg-white border-b border-[#f4f1f0] px-6 py-4 shadow-sm">
+<div class="mx-auto flex max-w-[1200px] items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-8 text-brand-maroon">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold tracking-tight text-brand-maroon">Housing UMY</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium hover:text-brand-maroon transition-colors" href="#">Home</a>
+<a class="text-sm font-medium text-brand-maroon" href="#">Rooms</a>
+<a class="text-sm font-medium hover:text-brand-maroon transition-colors" href="#">Facilities</a>
+<a class="text-sm font-medium hover:text-brand-maroon transition-colors" href="#">Contact</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden sm:flex h-10 items-center justify-center rounded-lg bg-brand-maroon px-6 text-sm font-bold text-white hover:bg-opacity-90 transition-opacity">
+                        Login
+                    </button>
+<button class="sm:hidden p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 px-4 py-8 md:px-8 lg:px-12">
+<div class="mx-auto max-w-[1200px]">
+<!-- Image Gallery (Bento Grid) -->
+<div class="mb-8 grid h-[300px] md:h-[450px] grid-cols-1 md:grid-cols-4 gap-2 overflow-hidden rounded-xl">
+<div class="md:col-span-2 md:row-span-2 relative group cursor-pointer">
+<div class="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Modern spacious hotel room bedroom with warm lighting" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAfQScYehLaJCgQkPqOEsFfh3KvTiYO4_NsZ89OeUXqimRWbRwHsr9iuJiRQUr2ISz6Gn-xmS9z6BMxOznCo1Q_7Hwi_-vVObmi9924WekVKUth4_WkMUNvlZtp1E7FZPWxNDbvIrVfNN_widundkPhZtTgUxmHjZqzibmWckX7w-mbTFqmgkwGWPmK0864z2KVf0rYdMw_jpm0zh3a42yLESdcxXuGTuacfmJsjKt4HfdhO_5N0vV90rFhkp2Z3oXljP8Zokv3AnY');"></div>
+<div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
+</div>
+<div class="hidden md:block relative group cursor-pointer">
+<div class="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Clean modern bathroom with large mirror" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCrW3cEnShoqwSL-ZSah3PwSwJ44SQ32kocK2Rvcb69tY5E-D36ag2w1aERZQVCdpQtMnsnKi9n6YUJj6k1CnMRMUaKkGFPp2h_OPQm3KWCMvkp_Bs8XNZuFpQqPCfZo7Rvf3MyOZNzIGatu_YbQlaI3brM4G38fQyI6dhKVnqk7vp1UWsZVjpZUYunkwsUpVCLLM_SUHGlg4ZxPd5_WqkEzMb-r3kq1QFrSO03aW4Dl91KTzL_Ef3gxx5XMhAzFKoNSTCXXeh730A');"></div>
+</div>
+<div class="hidden md:block relative group cursor-pointer">
+<div class="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Working desk area in the room with sunlight" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC3czHypwpM7jwdHDLM1AHkzu4a4mTWq9zkKAviYOsN9VR5m5ZerEuYPOJxiX3lzQAa8WfwV-wh1ot3I1FiLiTAX6S2Q6oHK-jZAGWlNIW9Ta_uv-Y9dXksNF5w94okoijsjrBgw4S94WMS5bZljJ4Jr9G1FZcmMKs_84sFzs1w4e8Jjm_mOmm7yy0yOT0K9_-NgQ61M2Kr8OewoESlswQVI0oOSzFOcryyC9w6DE8mqmAYbFlzNLRGB4kAbLTqobmEjSwguuK8JuA');"></div>
+</div>
+<div class="hidden md:block relative group cursor-pointer">
+<div class="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Cozy reading corner with armchair" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCZq9Wb1Dj5yNXglYTHjf05g1DdVTkv8wF8QRQUF7W3ZzjfBzDqtVauMBjPWzmnOn8DK24R6uXO57kqLGQYl7T62C85tE-4M81Pjyz6s-pNDyEFhEu1a7t0J-xgxEh3kR7QJ_Kcqzh17M8keM8EDb1eOB4y1K0lRf63UxV15SOgDbbh-mWbKNqlCoO5Hq8Sey4tr4K5DXOIVWobPOkJVSa41NxqmpGymYjWW0nR5tqyjMrHKWslzvGfg2BbWN_BKl3jKdlmJLp8J5M');"></div>
+</div>
+<div class="hidden md:block relative group cursor-pointer">
+<div class="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Hotel room detail with coffee table" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAk5PKeOjrQ9pPYNHx4796CeplYBf2tC6FwaG1oh3bXDgvKSiRjLKfTNqQQ77HygLcn9Zz2XX0O46Qy3v9RPyzn1GNXPJJzoJgwsWA08X8pM5IE8D6MVIt083uDgtHl_ceVAwlG7um-SdN-HAnUzLVHdzU96gAW5QPsRcKVxB-aVtC7shzVOmtLlKaEY38FjGYB4JNe38wFLSyIbZbTPclsjMHwZOPOXnJtKIRdS7T940pkGGk0daUsTm5zTUAEkossccXi6ynNnpM');"></div>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="text-white font-bold">View all photos</span>
+</div>
+</div>
+</div>
+<!-- Two Column Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+<!-- Left Column: Details -->
+<div class="lg:col-span-2 flex flex-col gap-8">
+<!-- Header & Ratings -->
+<div>
+<div class="flex items-start justify-between">
+<div>
+<h1 class="text-3xl md:text-4xl font-bold text-[#171211] leading-tight mb-3">Superior Room - Wisma UMY</h1>
+<div class="flex flex-wrap items-center gap-4 text-sm">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-brand-gold text-lg" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="font-bold">4.8</span>
+<span class="text-gray-500 underline decoration-gray-300">(120 reviews)</span>
+</div>
+<div class="w-1 h-1 rounded-full bg-gray-300"></div>
+<div class="flex items-center gap-1 text-gray-600 hover:text-brand-maroon cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-brand-maroon text-lg" style="font-variation-settings: 'FILL' 1">location_on</span>
+<span>Yogyakarta, near UMY Campus</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Chips/Tags -->
+<div class="mt-6 flex flex-wrap gap-3">
+<div class="flex items-center gap-2 rounded-full bg-[#f4f1f0] px-4 py-2 text-sm font-medium text-brand-maroon">
+<span class="material-symbols-outlined text-lg">school</span>
+                                    Near Campus
+                                </div>
+<div class="flex items-center gap-2 rounded-full bg-[#f4f1f0] px-4 py-2 text-sm font-medium text-brand-green">
+<span class="material-symbols-outlined text-lg">verified_user</span>
+                                    Verified Clean
+                                </div>
+<div class="flex items-center gap-2 rounded-full bg-[#f4f1f0] px-4 py-2 text-sm font-medium text-brand-gold">
+<span class="material-symbols-outlined text-lg text-black">local_cafe</span>
+<span class="text-black">Free Breakfast</span>
+</div>
+</div>
+</div>
+<div class="h-px w-full bg-gray-200"></div>
+<!-- Description -->
+<div class="space-y-4">
+<h3 class="text-xl font-bold">About this space</h3>
+<p class="text-gray-600 leading-relaxed">
+                                Experience comfort and convenience in our Superior Room at Wisma UMY. Designed for students, visiting professors, and guests, this room offers a spacious layout with modern furnishings. 
+                            </p>
+<p class="text-gray-600 leading-relaxed">
+                                Enjoy a peaceful environment perfect for studying or relaxing after a day in Yogyakarta. The room features a large work desk, high-speed internet, and soundproof windows to ensure your privacy and focus. Located just a 5-minute walk from the main campus buildings.
+                            </p>
+</div>
+<div class="h-px w-full bg-gray-200"></div>
+<!-- Amenities -->
+<div>
+<h3 class="text-xl font-bold mb-6">What this room offers</h3>
+<div class="grid grid-cols-2 gap-y-4 gap-x-8">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-brand-green text-2xl">wifi</span>
+<span class="text-gray-700">High-speed Wi-Fi</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-brand-green text-2xl">ac_unit</span>
+<span class="text-gray-700">Air conditioning</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-brand-green text-2xl">tv</span>
+<span class="text-gray-700">Smart TV</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-brand-green text-2xl">desk</span>
+<span class="text-gray-700">Dedicated workspace</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-brand-green text-2xl">shower</span>
+<span class="text-gray-700">Private bathroom</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-brand-green text-2xl">local_parking</span>
+<span class="text-gray-700">Free parking</span>
+</div>
+</div>
+<button class="mt-6 rounded-lg border border-gray-300 px-6 py-3 text-sm font-semibold hover:bg-gray-50 transition-colors">
+                                Show all 15 amenities
+                            </button>
+</div>
+<div class="h-px w-full bg-gray-200"></div>
+<!-- Map -->
+<div>
+<h3 class="text-xl font-bold mb-4">Where you'll be</h3>
+<div class="relative h-64 w-full overflow-hidden rounded-xl bg-gray-200" data-location="Yogyakarta, Indonesia" style="https://lh3.googleusercontent.com/aida-public/AB6AXuAw1E3hjjYPqK3mNfBBxo2OGpVhnUsOX9wo3HZVozhHrFOrjFVH9m_epMPHbdmRfm--O1zSzyM0_Lbgo1Xp97NPK-T10vkwJR_GOOq1EqhOHIeUUk3mMKG8DqQ2lkxxloIz4fRBwsZt9y69Jy3HwX_XSyb0AGSxvRkXMaTIPovK93hlklsjoIOKVg5IdB3Wav-xr56PTsgaPPcpvo1SFLp_642ydlF3Ohj4ibym5gav2ojhIXH4-FNJ1Wuu5fY0aL4U7M309iVILFc">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Map showing location of housing near UMY campus" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCPHCux3YvpBKdKxaCWT6z-5pqmMbHDKzcdpg5RVrMxsEyDHWHxJFWIeE_0aeajWYqugz1S8NMzvmyk2lvV4M7MYmZMJMSqJpP5Po7ZJwIGei0QuUxOPcVQhEs_vlERLmNrYQcfQxl3jZMgzDeHTOks9T5zBa-Y6Vrzh3gb9W5roeXc-fFm8tXKRxXiEMESGv4r3DqRf1pyFhqMP-hpZz_6_-77g6ouVfhpPDa1QyXclXuk7-XjlzZYkxEaK5KXeSDH2EJURHker5Y');"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-brand-maroon text-4xl drop-shadow-md" style="font-variation-settings: 'FILL' 1">location_on</span>
+<div class="mt-2 rounded-lg bg-white px-3 py-1 shadow-md text-xs font-bold text-gray-800">Wisma UMY</div>
+</div>
+</div>
+</div>
+<p class="mt-4 text-sm text-gray-600">Yogyakarta, Indonesia - Just 200m from UMY Integrated Campus.</p>
+</div>
+</div>
+<!-- Right Column: Sticky Booking Card -->
+<div class="relative h-full">
+<div class="sticky top-24 rounded-xl border border-gray-200 bg-white p-6 shadow-xl shadow-gray-100">
+<div class="flex items-end justify-between mb-6">
+<div>
+<span class="text-2xl font-bold text-[#171211]">Rp 350.000</span>
+<span class="text-gray-500 text-sm"> / night</span>
+</div>
+<div class="flex items-center gap-1 text-xs font-medium">
+<span class="material-symbols-outlined text-brand-gold text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span>4.8</span>
+<span class="text-gray-400">·</span>
+<span class="text-gray-500 underline">120 reviews</span>
+</div>
+</div>
+<div class="rounded-lg border border-gray-300 overflow-hidden mb-4">
+<div class="flex border-b border-gray-300">
+<div class="w-1/2 border-r border-gray-300 p-3 hover:bg-gray-50 cursor-pointer transition-colors">
+<label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500">Check-in</label>
+<div class="text-sm font-medium text-gray-900 mt-1">10 Aug 2023</div>
+</div>
+<div class="w-1/2 p-3 hover:bg-gray-50 cursor-pointer transition-colors">
+<label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500">Check-out</label>
+<div class="text-sm font-medium text-gray-900 mt-1">15 Aug 2023</div>
+</div>
+</div>
+<div class="p-3 hover:bg-gray-50 cursor-pointer transition-colors">
+<label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500">Guests</label>
+<div class="flex justify-between items-center mt-1">
+<span class="text-sm font-medium text-gray-900">1 Guest</span>
+<span class="material-symbols-outlined text-gray-400 text-lg">expand_more</span>
+</div>
+</div>
+</div>
+<button class="w-full rounded-lg bg-brand-maroon py-3.5 text-center text-sm font-bold text-white hover:bg-[#7a1e19] transition-colors shadow-md">
+                                Pesan Sekarang
+                            </button>
+<p class="mt-4 text-center text-xs text-gray-500">You won't be charged yet</p>
+<div class="mt-6 space-y-3 text-sm text-gray-600">
+<div class="flex justify-between">
+<span class="underline decoration-gray-300">Rp 350.000 x 5 nights</span>
+<span>Rp 1.750.000</span>
+</div>
+<div class="flex justify-between">
+<span class="underline decoration-gray-300">Cleaning fee</span>
+<span>Rp 50.000</span>
+</div>
+<div class="flex justify-between">
+<span class="underline decoration-gray-300">Service fee</span>
+<span>Rp 25.000</span>
+</div>
+</div>
+<div class="my-4 h-px w-full bg-gray-200"></div>
+<div class="flex justify-between text-base font-bold text-[#171211]">
+<span>Total</span>
+<span>Rp 1.825.000</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="mt-12 border-t border-gray-200 bg-white py-10 px-6">
+<div class="mx-auto max-w-[1200px] flex flex-col md:flex-row justify-between gap-8">
+<div>
+<div class="flex items-center gap-2 mb-4">
+<div class="size-6 text-brand-maroon">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold text-brand-maroon">Housing UMY</h2>
+</div>
+<p class="text-sm text-gray-500 max-w-xs">Providing comfortable and safe housing for the academic community of Universitas Muhammadiyah Yogyakarta.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-8 text-sm">
+<div class="flex flex-col gap-3">
+<h4 class="font-bold text-gray-900">Support</h4>
+<a class="text-gray-600 hover:text-brand-maroon" href="#">Help Center</a>
+<a class="text-gray-600 hover:text-brand-maroon" href="#">Safety</a>
+<a class="text-gray-600 hover:text-brand-maroon" href="#">Cancellation options</a>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-bold text-gray-900">Housing</h4>
+<a class="text-gray-600 hover:text-brand-maroon" href="#">Wisma UMY</a>
+<a class="text-gray-600 hover:text-brand-maroon" href="#">Unires</a>
+<a class="text-gray-600 hover:text-brand-maroon" href="#">Guest House</a>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-bold text-gray-900">Contact</h4>
+<a class="text-gray-600 hover:text-brand-maroon" href="#">WhatsApp</a>
+<a class="text-gray-600 hover:text-brand-maroon" href="#">Email</a>
+<a class="text-gray-600 hover:text-brand-maroon" href="#">Instagram</a>
+</div>
+</div>
+</div>
+<div class="mx-auto max-w-[1200px] mt-10 pt-6 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400">
+<p>© 2023 Housing UMY. All rights reserved.</p>
+<div class="flex gap-4 mt-4 md:mt-0">
+<a class="hover:text-gray-600" href="#">Privacy</a>
+<a class="hover:text-gray-600" href="#">Terms</a>
+<a class="hover:text-gray-600" href="#">Sitemap</a>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

@@ -31,6 +31,10 @@ Route::prefix('booking')->name('booking.')->group(function () {
     Route::get('/payment/{reservation}/success', [BookingController::class, 'paymentSuccess'])->name('payment.success');
 });
 
+// Building & Room Detail Routes
+Route::get('/building/{building:code}', [BookingController::class, 'buildingDetail'])->name('building.detail');
+Route::get('/room/{building:code}/{roomType}', [BookingController::class, 'roomDetail'])->name('room.detail');
+
 // Customer Auth Routes
 Route::prefix('customer')->name('customer.')->group(function () {
     // Guest routes

@@ -33,6 +33,11 @@ class Building extends Model
         return $this->hasMany(Room::class);
     }
 
+    public function roomTypes(): HasMany
+    {
+        return $this->hasMany(RoomType::class);
+    }
+
     public function financialTransactions(): HasMany
     {
         return $this->hasMany(FinancialTransaction::class);

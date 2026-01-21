@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Checkout - Housing UMY</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#93251f", // Maroon
+                        "primary-hover": "#7a1e19",
+                        "secondary": "#F7B800", // Gold/Yellow
+                        "success": "#004029", // Dark Green
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#201312",
+                        "surface": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light text-[#171212] font-display min-h-screen flex flex-col">
+<!-- Navbar -->
+<header class="bg-white border-b border-[#f4f1f1] sticky top-0 z-50">
+<div class="container mx-auto px-4 lg:px-20 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z"></path>
+</svg>
+</div>
+<h2 class="text-primary text-xl font-bold tracking-tight">Housing UMY</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-[#171212] hover:text-primary font-medium transition-colors" href="#">Beranda</a>
+<a class="text-[#171212] hover:text-primary font-medium transition-colors" href="#">Kamar</a>
+<a class="text-[#171212] hover:text-primary font-medium transition-colors" href="#">Fasilitas</a>
+<a class="text-[#171212] hover:text-primary font-medium transition-colors" href="#">Kontak</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="size-8 rounded-full bg-background-light flex items-center justify-center text-primary cursor-pointer">
+<span class="material-symbols-outlined text-xl">person</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow container mx-auto px-4 lg:px-20 py-8">
+<div class="flex flex-col lg:flex-row gap-8 xl:gap-12 items-start">
+<!-- Left Column: Forms -->
+<div class="flex-1 w-full flex flex-col gap-6">
+<!-- Header Section -->
+<div class="flex flex-col gap-4">
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2 text-sm text-[#856866]">
+<a class="hover:text-primary transition-colors" href="#">Beranda</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-primary font-semibold">Checkout</span>
+</div>
+<h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-[#171212]">Selesaikan Pesanan Anda</h1>
+<p class="text-[#856866]">Mohon lengkapi data diri Anda dan pilih metode pembayaran untuk melanjutkan.</p>
+</div>
+<!-- Stepper -->
+<div class="flex flex-wrap gap-4 py-2">
+<div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-success/10 border border-success/20">
+<span class="material-symbols-outlined text-success text-[20px] font-bold">check_circle</span>
+<span class="text-success font-bold text-sm">1. Informasi Tamu</span>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-background-light text-gray-500">
+<span class="material-symbols-outlined text-[20px]">credit_card</span>
+<span class="font-medium text-sm">2. Pembayaran</span>
+</div>
+</div>
+<!-- Step 1: Guest Information -->
+<section class="bg-white rounded-xl shadow-sm border border-[#f0f0f0] p-6 md:p-8">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-xl font-bold flex items-center gap-2 text-[#171212]">
+<span class="flex items-center justify-center size-8 rounded-full bg-primary text-white text-sm font-bold">1</span>
+                            Informasi Tamu
+                        </h2>
+</div>
+<form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="col-span-1 md:col-span-2">
+<label class="block text-sm font-semibold text-[#171212] mb-2">Nama Lengkap</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 material-symbols-outlined text-[20px]">person</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-lg border-gray-300 focus:border-primary focus:ring-primary placeholder-gray-400 text-sm font-medium" placeholder="Masukkan nama sesuai KTP" type="text"/>
+</div>
+</div>
+<div class="col-span-1">
+<label class="block text-sm font-semibold text-[#171212] mb-2">Email</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 material-symbols-outlined text-[20px]">mail</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-lg border-gray-300 focus:border-primary focus:ring-primary placeholder-gray-400 text-sm font-medium" placeholder="contoh@email.com" type="email"/>
+</div>
+</div>
+<div class="col-span-1">
+<label class="block text-sm font-semibold text-[#171212] mb-2">Nomor Telepon</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 material-symbols-outlined text-[20px]">call</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-lg border-gray-300 focus:border-primary focus:ring-primary placeholder-gray-400 text-sm font-medium" placeholder="+62 812..." type="tel"/>
+</div>
+</div>
+<div class="col-span-1 md:col-span-2">
+<label class="block text-sm font-semibold text-[#171212] mb-2">Nomor KTP / Identitas</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 material-symbols-outlined text-[20px]">badge</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-lg border-gray-300 focus:border-primary focus:ring-primary placeholder-gray-400 text-sm font-medium" placeholder="16 digit nomor NIK" type="text"/>
+</div>
+</div>
+<div class="col-span-1 md:col-span-2 flex items-start gap-3 mt-2 bg-blue-50 p-3 rounded-lg border border-blue-100">
+<span class="material-symbols-outlined text-blue-600 shrink-0">info</span>
+<p class="text-sm text-blue-800 leading-snug">Pastikan data yang Anda masukkan benar. E-tiket akan dikirimkan ke alamat email yang terdaftar.</p>
+</div>
+</form>
+</section>
+<!-- Step 2: Payment Method -->
+<section class="bg-white rounded-xl shadow-sm border border-[#f0f0f0] p-6 md:p-8">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-xl font-bold flex items-center gap-2 text-[#171212]">
+<span class="flex items-center justify-center size-8 rounded-full border-2 border-gray-300 text-gray-500 text-sm font-bold">2</span>
+                            Metode Pembayaran
+                        </h2>
+</div>
+<div class="space-y-4">
+<!-- Virtual Account Option -->
+<label class="relative flex flex-col cursor-pointer border rounded-xl p-4 hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5 has-[:checked]:ring-1 has-[:checked]:ring-primary">
+<div class="flex items-center justify-between w-full">
+<div class="flex items-center gap-3">
+<input checked="" class="size-5 text-primary focus:ring-primary border-gray-300" name="payment_method" type="radio"/>
+<span class="font-bold text-[#171212]">Virtual Account</span>
+</div>
+<div class="flex gap-2 opacity-80">
+<!-- Placeholder logos for banks -->
+<div class="h-6 w-10 bg-gray-200 rounded flex items-center justify-center text-[8px] text-gray-500 font-bold">BNI</div>
+<div class="h-6 w-10 bg-gray-200 rounded flex items-center justify-center text-[8px] text-gray-500 font-bold">BCA</div>
+<div class="h-6 w-10 bg-gray-200 rounded flex items-center justify-center text-[8px] text-gray-500 font-bold">MANDIRI</div>
+</div>
+</div>
+<p class="text-sm text-gray-500 mt-2 ml-8">Pembayaran otomatis diverifikasi. Tersedia untuk berbagai bank besar di Indonesia.</p>
+</label>
+<!-- E-Wallet Option -->
+<label class="relative flex flex-col cursor-pointer border rounded-xl p-4 hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5 has-[:checked]:ring-1 has-[:checked]:ring-primary">
+<div class="flex items-center justify-between w-full">
+<div class="flex items-center gap-3">
+<input class="size-5 text-primary focus:ring-primary border-gray-300" name="payment_method" type="radio"/>
+<span class="font-bold text-[#171212]">E-Wallet / QRIS</span>
+</div>
+<div class="flex gap-2 opacity-80">
+<div class="h-6 w-10 bg-gray-200 rounded flex items-center justify-center text-[8px] text-gray-500 font-bold">GOPAY</div>
+<div class="h-6 w-10 bg-gray-200 rounded flex items-center justify-center text-[8px] text-gray-500 font-bold">OVO</div>
+</div>
+</div>
+<p class="text-sm text-gray-500 mt-2 ml-8">Scan kode QRIS menggunakan aplikasi e-wallet favorit Anda.</p>
+</label>
+<!-- Bank Transfer Option -->
+<label class="relative flex flex-col cursor-pointer border rounded-xl p-4 hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5 has-[:checked]:ring-1 has-[:checked]:ring-primary">
+<div class="flex items-center justify-between w-full">
+<div class="flex items-center gap-3">
+<input class="size-5 text-primary focus:ring-primary border-gray-300" name="payment_method" type="radio"/>
+<span class="font-bold text-[#171212]">Transfer Bank Manual</span>
+</div>
+<span class="material-symbols-outlined text-gray-400">account_balance</span>
+</div>
+<p class="text-sm text-gray-500 mt-2 ml-8">Perlu upload bukti transfer. Verifikasi manual max 1x24 jam.</p>
+</label>
+</div>
+</section>
+</div>
+<!-- Right Column: Order Summary (Sticky) -->
+<aside class="w-full lg:w-[380px] shrink-0">
+<div class="sticky top-24 flex flex-col gap-6">
+<div class="bg-white rounded-xl shadow-lg border border-[#f0f0f0] overflow-hidden">
+<div class="p-5 border-b border-[#f4f1f1]">
+<h3 class="text-lg font-bold text-[#171212]">Ringkasan Pesanan</h3>
+</div>
+<!-- Room Details -->
+<div class="p-5">
+<div class="flex gap-4 mb-5">
+<div class="w-24 h-24 shrink-0 rounded-lg overflow-hidden bg-gray-100">
+<img alt="Cozy modern dormitory room interior with wooden furniture and warm lighting" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOBxA-tA3IGZ0oyr_Mlbr4DmUKM0BshvVBTmU3pzx0rXI40LkQwgTMhZpZSETYKLyCY1TNwlGbwHtxEj0haORmv7pXUHWFLa5NoQiTWu-_TrM9pRq5kwinL-rWR-RxpvZ-3FxzColIMoAmTOE2eqBHHi7AYjlelqP17cNgrzeaJydu3sRAdhfHN0WrftUL2mH6u0Jf-0KkoKvdDStyXTUXZ3NLpsgm_VTW34ihGZfZSFnadoh1eCL8Vd7Z_tgC7lfI7OWsslD4heY"/>
+</div>
+<div class="flex flex-col gap-1">
+<h4 class="font-bold text-[#171212] leading-tight">Deluxe Single Room - Housing UMY</h4>
+<div class="flex items-center gap-1 text-secondary text-xs font-bold">
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span>4.8 (120 Review)</span>
+</div>
+<p class="text-xs text-gray-500 mt-1">1 Tamu • 1 Kamar Tidur</p>
+</div>
+</div>
+<!-- Dates -->
+<div class="bg-background-light rounded-lg p-3 flex justify-between items-center mb-6 text-sm">
+<div>
+<p class="text-xs text-gray-500">Check-in</p>
+<p class="font-bold text-[#171212]">12 Des 2023</p>
+</div>
+<div class="h-8 w-[1px] bg-gray-300"></div>
+<div>
+<p class="text-xs text-gray-500">Check-out</p>
+<p class="font-bold text-[#171212]">13 Des 2023</p>
+</div>
+<div class="h-8 w-[1px] bg-gray-300"></div>
+<div>
+<p class="text-xs text-gray-500">Durasi</p>
+<p class="font-bold text-[#171212]">1 Malam</p>
+</div>
+</div>
+<!-- Price Breakdown -->
+<div class="space-y-3 border-t border-dashed border-gray-200 pt-4">
+<div class="flex justify-between text-sm">
+<span class="text-gray-600">Harga Kamar (1 Malam)</span>
+<span class="font-medium text-[#171212]">Rp 350.000</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-gray-600">Biaya Layanan</span>
+<span class="font-medium text-[#171212]">Rp 15.000</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-gray-600">Pajak (11%)</span>
+<span class="font-medium text-[#171212]">Rp 38.500</span>
+</div>
+<div class="flex justify-between text-sm text-success">
+<span class="font-medium">Diskon Promo</span>
+<span class="font-medium">- Rp 0</span>
+</div>
+</div>
+</div>
+<!-- Total & Action -->
+<div class="bg-[#faf8f8] p-5 border-t border-[#f4f1f1]">
+<div class="flex justify-between items-end mb-6">
+<span class="text-base font-bold text-gray-700">Total Pembayaran</span>
+<span class="text-2xl font-black text-primary tracking-tight">Rp 403.500</span>
+</div>
+<button class="w-full bg-primary hover:bg-primary-hover text-white font-bold py-3.5 px-6 rounded-lg transition-colors shadow-lg shadow-primary/20 flex items-center justify-center gap-2 group">
+<span>Konfirmasi &amp; Bayar</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<div class="flex items-center justify-center gap-2 mt-4 text-xs text-gray-400">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+<span>Pembayaran aman &amp; terenkripsi</span>
+</div>
+</div>
+</div>
+<!-- Help Card -->
+<div class="bg-white rounded-xl shadow-sm border border-[#f0f0f0] p-4 flex items-center gap-4">
+<div class="size-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
+<span class="material-symbols-outlined">support_agent</span>
+</div>
+<div>
+<p class="text-sm font-bold text-[#171212]">Butuh bantuan?</p>
+<a class="text-xs text-primary font-medium hover:underline" href="#">Hubungi Layanan Pelanggan</a>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer Simplified -->
+<footer class="bg-white border-t border-[#f4f1f1] mt-12 py-8">
+<div class="container mx-auto px-4 lg:px-20 text-center text-gray-500 text-sm">
+<p class="font-medium text-gray-900 mb-2">Housing UMY</p>
+<p>© 2023 Universitas Muhammadiyah Yogyakarta. All rights reserved.</p>
+</div>
+</footer>
+</body></html>

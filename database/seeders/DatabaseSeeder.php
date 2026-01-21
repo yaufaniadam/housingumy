@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             BuildingSeeder::class,
             FacilitySeeder::class,
+            RoomTypeSeeder::class,
             RoomSeeder::class,
             UnitKerjaSeeder::class,
             MahadAliSeeder::class,

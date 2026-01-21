@@ -14,23 +14,31 @@ class Room extends Model
 
     protected $fillable = [
         'building_id',
+        'room_type_id', // Added
         'room_number',
-        'room_type',
+        'room_type', // Deprecated
         'floor',
-        'capacity',
-        'price',
+        'capacity', // Optional override
+        'price',    // Optional override
         'status',
-        'description',
-        'image',
+        'description', // Deprecated
+        'image',       // Deprecated
+        'is_daily_rentable',
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
+        'is_daily_rentable' => 'boolean',
     ];
 
     public function building(): BelongsTo
     {
         return $this->belongsTo(Building::class);
+    }
+
+    public function roomType(): BelongsTo
+    {
+        return $this->belongsTo(RoomType::class);
     }
 
     public function facilities(): BelongsToMany
@@ -47,5 +55,15 @@ class Room extends Model
     public function isAvailable(): bool
     {
         return $this->status === 'available';
+    }
+
+    public function getEffectivePriceAttribute()
+    {
+        return $this->price ?? $this->roomType?->price ?? 0;
+    }
+
+    public function getEffectiveCapacityAttribute()
+    {
+        return $this->capacity ?? $this->roomType?->capacity ?? 0;
     }
 }

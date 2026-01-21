@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Housing UMY User Dashboard</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#93251f", // Maroon
+                        "secondary": "#F7B800", // Gold
+                        "success": "#004029", // Green
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#201312",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sidebar-active {
+            background-color: #93251f;
+            color: white;
+        }
+        .sidebar-active .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white h-screen overflow-hidden flex">
+<!-- Sidebar Navigation -->
+<aside class="w-64 bg-white dark:bg-[#1a0f0e] border-r border-slate-200 dark:border-slate-800 flex flex-col h-full shrink-0 z-20 hidden md:flex transition-all duration-300">
+<div class="p-6 flex items-center gap-3">
+<div class="size-10 rounded-full bg-primary flex items-center justify-center text-white shrink-0">
+<span class="material-symbols-outlined">apartment</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-lg font-bold text-slate-900 dark:text-white leading-tight">Housing UMY</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">Dashboard Mahasiswa</p>
+</div>
+</div>
+<nav class="flex-1 px-4 py-4 flex flex-col gap-2 overflow-y-auto">
+<a class="sidebar-active flex items-center gap-3 px-4 py-3 rounded-xl transition-colors group" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-sm font-medium">Beranda</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="text-sm font-medium">Reservasi Saya</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-sm font-medium">Profil</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined flex-shrink-0">notifications</span>
+<span class="text-sm font-medium flex-1">Notifikasi</span>
+<span class="flex items-center justify-center size-5 rounded-full bg-secondary text-white text-[10px] font-bold">3</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-100 dark:border-slate-800">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-400 transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-sm font-medium">Keluar</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 h-full overflow-y-auto relative w-full">
+<!-- Mobile Header (Visible only on small screens) -->
+<div class="md:hidden flex items-center justify-between p-4 bg-white dark:bg-[#1a0f0e] border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
+<div class="flex items-center gap-2">
+<div class="size-8 rounded-full bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[18px]">apartment</span>
+</div>
+<span class="font-bold text-slate-900 dark:text-white">Housing UMY</span>
+</div>
+<button class="text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+<div class="container mx-auto max-w-7xl p-6 lg:p-10 space-y-8">
+<!-- Page Heading -->
+<header class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h1 class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight mb-2">Halo, Budi Santoso!</h1>
+<p class="text-slate-500 dark:text-slate-400 text-lg">Selamat datang kembali di Housing UMY.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 rounded-full bg-white dark:bg-white/10 shadow-sm border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<div class="h-10 px-4 bg-white dark:bg-white/10 rounded-full flex items-center gap-2 shadow-sm border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-secondary">workspace_premium</span>
+<span class="text-sm font-bold text-slate-900 dark:text-white">1,250 Poin</span>
+</div>
+</div>
+</header>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+<!-- Left Column: Reservations (Takes 2 cols) -->
+<div class="lg:col-span-2 space-y-6">
+<div class="flex items-center justify-between">
+<h2 class="text-xl font-bold text-slate-900 dark:text-white">Reservasi Mendatang</h2>
+<a class="text-sm font-semibold text-primary hover:text-primary/80 flex items-center gap-1" href="#">
+                            Lihat Semua <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Reservation Card 1 (Pending) -->
+<div class="bg-white dark:bg-[#1a0f0e] rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden flex flex-col md:flex-row transition-shadow hover:shadow-md group">
+<div class="w-full md:w-64 h-48 md:h-auto shrink-0 bg-slate-200 relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Modern university dormitory room with desk and bed" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAwq_AaLHa4wVOGc4g2CRFlg-YB2YvEgnXBVRVnMfqjIPHzl1md7HxfOnD3d1vAtjwt4vXEzymTVXiP135eQge1DuJh7cyG81ypKuB_4xAkQgGklqvAUyOeO_Y_B-6VA_nynmTa10K2afblQ8uaip0xsXWYhmdsu89mETjTNE23nSxqxZ1u2USrPA8cJYTzQMWv7MhdJL9ofABOqYBTC_04KoagKGgM-k8RSZqaV4bMltmfmAqWkn4x5RlJyeYPL33K9XxPU1JQDxc');">
+</div>
+<div class="absolute top-3 left-3">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#F7B800] text-white shadow-sm">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                                    Menunggu Pembayaran
+                                </span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-1 justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Asrama Putri Siti Walidah</h3>
+<p class="text-lg font-bold text-primary">Rp 1.500.000</p>
+</div>
+<div class="space-y-2 mb-4">
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+<span>12 Agt - 19 Agt 2024 (1 Minggu)</span>
+</div>
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span>Kampus Terpadu UMY, Yogyakarta</span>
+</div>
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">bed</span>
+<span>Kamar Standard A-102</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3 mt-auto pt-4 border-t border-slate-100 dark:border-slate-800">
+<button class="flex-1 bg-primary hover:bg-primary/90 text-white text-sm font-semibold py-2.5 px-4 rounded-lg transition-colors shadow-sm shadow-primary/30">
+                                    Bayar Sekarang
+                                </button>
+<button class="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm font-semibold hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                                    Detail
+                                </button>
+</div>
+</div>
+</div>
+<!-- Reservation Card 2 (Confirmed/Upcoming) -->
+<div class="bg-white dark:bg-[#1a0f0e] rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden flex flex-col md:flex-row transition-shadow hover:shadow-md group opacity-80 hover:opacity-100">
+<div class="w-full md:w-64 h-48 md:h-auto shrink-0 bg-slate-200 relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Cozy student study area with bright window" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuABriKMzV5fHKFQNNIpjsNUI_mN2TsRmjuGKuudJJq2g7t8ftkkkqLx-rIiTqgNNe_dA-7TQtBYmuaK7-H2nlZadKmR83K33VRkAHRFZEdbDFSDm7hznAaXHqcjje9eBLJsofOPn1h5tQh_paJy_yqx9br9qTKjfaYo3mbpS9aKb7mK_Cq2ix4Hqa6IFRxStegwqZ7SMNBaUgZl8DP951JnUmjb5kEEt3LSL-cjaZJDY1ekVTZbMI6NF1SVyorYSQvwYIMXRDJSoik');">
+</div>
+<div class="absolute top-3 left-3">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-success text-white shadow-sm">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                    Terkonfirmasi
+                                </span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-1 justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Asrama Putra KH Ahmad Dahlan</h3>
+<p class="text-lg font-bold text-slate-700 dark:text-slate-300">Lunas</p>
+</div>
+<div class="space-y-2 mb-4">
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+<span>01 Sep - 30 Sep 2024 (1 Bulan)</span>
+</div>
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span>Gedung Selatan UMY</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3 mt-auto pt-4 border-t border-slate-100 dark:border-slate-800">
+<button class="flex-1 bg-white dark:bg-white/5 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary text-sm font-semibold py-2.5 px-4 rounded-lg transition-colors">
+                                    Lihat Tiket
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Profile Summary (Takes 1 col) -->
+<div class="lg:col-span-1 space-y-6">
+<h2 class="text-xl font-bold text-slate-900 dark:text-white">Ringkasan Profil</h2>
+<div class="bg-white dark:bg-[#1a0f0e] rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 p-6 flex flex-col items-center text-center">
+<div class="relative mb-4">
+<div class="size-24 rounded-full bg-slate-200 bg-cover bg-center border-4 border-white dark:border-[#2d201e] shadow-md" data-alt="Portrait of a male student smiling" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAcpDW21lgbpzCX_jvSDfaFaN8sVEYzf6oqF84hs7eT4HM6CBilrJFQzgf9OItCEurHySgvkd2tLTc-5BdoT37RoECFyBhsoi90Tld94HoYpgkYJIwVGvpsgtpli-hzwwKiEc40ZcKOIgh6WjmeULm1oVrTES0c_zrbmCb_oyjHvvPBtycnco4Gfj12EdS6UWTeqzr1IRfN91461-GVTVvAkD93GqoyKRKbi1kr75RQQeFN8C57JFYov4-QnP5NM0hLomVKmWEuqxs');">
+</div>
+<button class="absolute bottom-0 right-0 p-1.5 bg-primary text-white rounded-full border-2 border-white dark:border-[#2d201e] shadow-sm hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+</div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Budi Santoso</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Mahasiswa Teknik Informatika<br/>NIM: 20210140089</p>
+<!-- Loyalty Section -->
+<div class="w-full bg-slate-50 dark:bg-white/5 rounded-xl p-4 border border-slate-100 dark:border-slate-800">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-bold uppercase tracking-wider text-secondary">Poin Loyalitas</span>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">Gold Member</span>
+</div>
+<div class="flex items-end gap-1 mb-3">
+<span class="text-2xl font-black text-slate-900 dark:text-white">1,250</span>
+<span class="text-sm font-medium text-slate-400 mb-1">/ 2,000</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full h-2 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 62%"></div>
+</div>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-3 text-left">
+                                Kumpulkan 750 poin lagi untuk mendapatkan voucher diskon 20%!
+                            </p>
+</div>
+<div class="w-full grid grid-cols-2 gap-3 mt-4">
+<button class="flex flex-col items-center justify-center p-3 rounded-xl bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors gap-1 border border-transparent hover:border-slate-200 dark:hover:border-slate-700">
+<span class="material-symbols-outlined text-primary">history</span>
+<span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Riwayat</span>
+</button>
+<button class="flex flex-col items-center justify-center p-3 rounded-xl bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors gap-1 border border-transparent hover:border-slate-200 dark:hover:border-slate-700">
+<span class="material-symbols-outlined text-primary">settings</span>
+<span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Pengaturan</span>
+</button>
+</div>
+</div>
+<!-- Quick Help Card -->
+<div class="bg-primary rounded-2xl shadow-lg shadow-primary/20 p-6 text-white relative overflow-hidden">
+<div class="absolute -right-4 -top-4 text-white/10">
+<span class="material-symbols-outlined text-[120px]">support_agent</span>
+</div>
+<div class="relative z-10">
+<h3 class="text-lg font-bold mb-2">Butuh Bantuan?</h3>
+<p class="text-white/80 text-sm mb-4">Tim support kami siap membantu masalah reservasi Anda 24/7.</p>
+<button class="bg-white text-primary text-sm font-bold py-2 px-4 rounded-lg hover:bg-slate-100 transition-colors w-full">
+                                Hubungi Admin
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

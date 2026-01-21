@@ -101,7 +101,7 @@ class RoomForm
                                     })
                                     ->dehydrated(false),
                             ]),
-                        Grid::make(4)
+                        Grid::make(3)
                             ->schema([
                                 TextInput::make('room_number')
                                     ->label('Kode Final (Auto)')
@@ -110,28 +110,21 @@ class RoomForm
                                     ->unique(ignoreRecord: true, modifyRuleUsing: function ($rule, $get) {
                                         return $rule->where('building_id', $get('building_id'));
                                     })
+                                    ->required(),
+                                Select::make('room_type_id')
+                                    ->label('Tipe Ruangan (Kategori)')
+                                    ->options(function ($get) {
+                                        $buildingId = $get('building_id');
+                                        if (!$buildingId) {
+                                            return [];
+                                        }
+                                        return \App\Models\RoomType::where('building_id', $buildingId)
+                                            ->pluck('name', 'id');
+                                    })
                                     ->required()
-                                    ->columnSpan(1),
-                                Select::make('room_type')
-                                    ->label('Tipe Ruangan')
-                                    ->options([
-                                        'dormitory_single' => 'Kamar Single',
-                                        'dormitory_double' => 'Kamar Double',
-                                        'dormitory_suite' => 'Kamar Suite',
-                                        'office' => 'Kantor',
-                                        'classroom' => 'Kelas',
-                                    ])
-                                    ->required()
-                                    ->default('dormitory_single')
-                                    ->columnSpan(1),
-                                TextInput::make('capacity')
-                                    ->label('Kapasitas')
-                                    ->numeric()
-                                    ->minValue(1)
-                                    ->suffix('orang')
-                                    ->required()
-                                    ->default(1)
-                                    ->columnSpan(1),
+                                    ->searchable()
+                                    ->preload()
+                                    ->live(),
                                 Select::make('status')
                                     ->label('Status')
                                     ->options([
@@ -140,49 +133,30 @@ class RoomForm
                                         'maintenance' => 'Maintenance',
                                     ])
                                     ->required()
-                                    ->default('available')
-                                    ->columnSpan(1),
+                                    ->default('available'),
+                            ]),
+                        
+                        Section::make('Override (Opsional)')
+                            ->description('Isi hanya jika berbeda dari kategori')
+                            ->collapsed()
+                            ->schema([
+                                Grid::make(2)
+                                    ->schema([
+                                        TextInput::make('capacity')
+                                            ->label('Kapasitas (Override)')
+                                            ->placeholder('Ikuti Kategori')
+                                            ->numeric()
+                                            ->minValue(1)
+                                            ->suffix('orang'),
+                                        TextInput::make('price')
+                                            ->label('Tarif (Override)')
+                                            ->placeholder('Ikuti Kategori')
+                                            ->numeric()
+                                            ->prefix('Rp'),
+                                    ]),
                             ]),
                     ]),
 
-                Section::make('Tarif')
-                    ->description('Harga per malam')
-                    ->icon('heroicon-o-currency-dollar')
-                    ->schema([
-                        TextInput::make('price')
-                            ->label('Tarif')
-                            ->helperText('Harga standar per malam. Diskon akan diterapkan melalui kupon/admin.')
-                            ->numeric()
-                            ->prefix('Rp')
-                            ->required()
-                            ->default(0),
-                    ]),
-
-                Section::make('Fasilitas')
-                    ->description('Pilih fasilitas yang tersedia')
-                    ->icon('heroicon-o-sparkles')
-                    ->schema([
-                        CheckboxList::make('facilities')
-                            ->label('')
-                            ->relationship('facilities', 'name')
-                            ->columns(3)
-                            ->searchable(),
-                    ]),
-
-                Section::make('Deskripsi & Media')
-                    ->collapsible()
-                    ->schema([
-                        Textarea::make('description')
-                            ->label('Deskripsi')
-                            ->placeholder('Deskripsi singkat tentang ruangan')
-                            ->rows(3)
-                            ->columnSpanFull(),
-                        FileUpload::make('image')
-                            ->label('Foto Ruangan')
-                            ->image()
-                            ->imageEditor()
-                            ->directory('rooms'),
-                    ]),
             ]);
     }
 

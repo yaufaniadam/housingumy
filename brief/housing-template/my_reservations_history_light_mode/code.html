@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Riwayat Reservasi Saya - Housing UMY</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#197fe6",
+              "background-light": "#f6f7f8",
+              "background-dark": "#111921",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111418] font-display antialiased overflow-x-hidden">
+<div class="flex min-h-screen w-full">
+<!-- Sidebar Navigation -->
+<aside class="w-72 bg-white border-r border-[#dce0e5] flex-shrink-0 flex flex-col hidden lg:flex sticky top-0 h-screen overflow-y-auto z-10">
+<div class="p-6 flex flex-col h-full justify-between">
+<div class="flex flex-col gap-8">
+<!-- Brand Header -->
+<div class="flex items-center gap-3 px-2">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 flex-shrink-0 ring-2 ring-primary/10" data-alt="Housing UMY Logo showing abstract building shapes" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBcx08k-g3i3WtRpf33RlKro0eiM1culZMl6R6Ms8b17UUmXGQiWF6_oI8L29EdyAVKMdBXuxLHOHgDmlELtfX-kpQ1bD7XH5o2eCNGvwRlyToePX3GKRRTLdtKyCCDj98rMdntDpZgczf5wKwKRLovmH_1oMAP7BDLildGaaG-9xIeEeT2g8oWmO1YmdlBdr--q1tq-RP1nd_fE2G8yGjr68ZKnX5wkAxe3_8MZFHzHtIQJqc6b9MT7_XX1oLWQpHuT2G9iJv7XYU");'></div>
+<div class="flex flex-col">
+<h1 class="text-[#111418] text-base font-bold leading-tight">Housing UMY</h1>
+<p class="text-[#637588] text-sm font-normal leading-normal">Portal Mahasiswa</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-1.5">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#637588] hover:bg-gray-50 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#637588] group-hover:text-[#111418]">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<!-- Active State for My Reservations -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined fill-1">calendar_month</span>
+<span class="text-sm font-medium">Reservasi Saya</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#637588] hover:bg-gray-50 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#637588] group-hover:text-[#111418]">person</span>
+<span class="text-sm font-medium">Profile</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#637588] hover:bg-gray-50 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#637588] group-hover:text-[#111418]">settings</span>
+<span class="text-sm font-medium">Pengaturan</span>
+</a>
+</nav>
+</div>
+<!-- Footer Action -->
+<div>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#637588] hover:bg-red-50 hover:text-red-600 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#637588] group-hover:text-red-600">logout</span>
+<span class="text-sm font-medium">Keluar</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0">
+<div class="flex-1 p-4 md:p-8 max-w-6xl mx-auto w-full flex flex-col gap-6">
+<!-- Header Section: Breadcrumbs & Title -->
+<div class="flex flex-col gap-2">
+<nav class="flex items-center gap-2 text-sm text-[#637588]">
+<a class="hover:text-primary transition-colors" href="#">Beranda</a>
+<span class="material-symbols-outlined text-base text-gray-400">chevron_right</span>
+<span class="text-[#111418] font-medium">Riwayat Reservasi</span>
+</nav>
+<div class="flex flex-col gap-1 mt-2">
+<h1 class="text-[#111418] text-3xl font-bold tracking-tight">Riwayat Reservasi Saya</h1>
+<p class="text-[#637588] text-base font-normal">Kelola dan lihat status pemesanan kamar asrama Anda.</p>
+</div>
+</div>
+<!-- Filters & Controls Section -->
+<div class="bg-white p-5 rounded-xl border border-[#dce0e5] shadow-sm flex flex-col gap-5">
+<!-- Status Chips / Tabs -->
+<div class="flex flex-wrap gap-2">
+<button class="px-4 py-2 rounded-lg bg-[#111418] text-white text-sm font-medium transition-colors shadow-sm">
+                            Semua
+                        </button>
+<button class="px-4 py-2 rounded-lg bg-[#f0f2f4] text-[#637588] hover:bg-[#e0e2e5] hover:text-[#111418] text-sm font-medium transition-colors">
+                            Berlangsung
+                        </button>
+<button class="px-4 py-2 rounded-lg bg-[#f0f2f4] text-[#637588] hover:bg-[#e0e2e5] hover:text-[#111418] text-sm font-medium transition-colors">
+                            Selesai
+                        </button>
+<button class="px-4 py-2 rounded-lg bg-[#f0f2f4] text-[#637588] hover:bg-[#e0e2e5] hover:text-[#111418] text-sm font-medium transition-colors">
+                            Dibatalkan
+                        </button>
+</div>
+<div class="h-px bg-[#f0f2f4] w-full"></div>
+<!-- Input Fields -->
+<div class="flex flex-col md:flex-row gap-4">
+<div class="relative flex-grow">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#637588]">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[#dce0e5] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary placeholder:text-[#637588] text-[#111418]" placeholder="Cari ID Booking (Contoh: #UMY-123)" type="text"/>
+</div>
+<div class="relative flex-grow md:max-w-xs">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#637588]">date_range</span>
+<input class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[#dce0e5] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary placeholder:text-[#637588] text-[#111418]" placeholder="Pilih Rentang Tanggal" type="text"/>
+</div>
+</div>
+</div>
+<!-- Reservation Cards List -->
+<div class="flex flex-col gap-4">
+<!-- Card 1: Ongoing (Gold) -->
+<div class="group bg-white rounded-xl border border-[#dce0e5] shadow-sm overflow-hidden flex flex-col md:flex-row hover:shadow-md transition-all duration-200">
+<!-- Thumbnail -->
+<div class="w-full md:w-64 h-48 md:h-auto bg-gray-200 relative flex-shrink-0 overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Interior of a modern student dormitory room with desk and bed" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCnm076cyeODG4LvkVhlv6oa26lyoLj4u21BmxxeWg6ESDMpX80DZst3khtm5H5mB8tfuOiG3o6ipH1vxH6KB5i8kaqGBHaRGh1Sf1oFHg7ADhpcTW65V36WngvG2M8zeNyUbXXwOf3qQmQEYS7Q5wIGkgW8VBgPff6Xk6pDGfG4OWqx4pVIdtBTNq4u3athchdVhlFjxZhG10GdoeVjB9NaY2OEjuHygMIeY4lIYoHI33J6n2lkGjjjsYLIV2-Lx0S6H27_IoiHIA');"></div>
+</div>
+<!-- Content -->
+<div class="flex-1 p-5 flex flex-col justify-between">
+<div class="flex flex-col gap-4">
+<div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-md bg-[#f0f2f4] text-[#637588] text-xs font-semibold tracking-wide">#UMY-2024-089</span>
+</div>
+<h3 class="text-lg font-bold text-[#111418]">Asrama Putra Gedung A - Kamar 302</h3>
+<p class="text-[#637588] text-sm">Twin Bed • Lantai 3 • Wi-Fi Included</p>
+</div>
+<!-- Status Badge: Gold for Ongoing -->
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#F7B800] text-[#111921] text-xs font-bold shadow-sm whitespace-nowrap self-start">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+                                        Diproses
+                                    </span>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-1 p-3 bg-background-light rounded-lg border border-transparent">
+<div class="flex flex-col">
+<span class="text-xs text-[#637588] font-medium mb-1 uppercase tracking-wider">Check-in</span>
+<div class="flex items-center gap-2 text-[#111418] text-sm font-semibold">
+<span class="material-symbols-outlined text-[18px] text-primary">login</span>
+                                            12 Okt 2023
+                                        </div>
+</div>
+<div class="flex flex-col">
+<span class="text-xs text-[#637588] font-medium mb-1 uppercase tracking-wider">Check-out</span>
+<div class="flex items-center gap-2 text-[#111418] text-sm font-semibold">
+<span class="material-symbols-outlined text-[18px] text-primary">logout</span>
+                                            12 Okt 2024
+                                        </div>
+</div>
+</div>
+</div>
+<div class="mt-5 pt-4 border-t border-[#f0f2f4] flex justify-end">
+<button class="px-5 py-2.5 rounded-lg border border-primary text-primary hover:bg-primary/5 text-sm font-semibold transition-colors focus:ring-2 focus:ring-primary/20">
+                                    Lihat Detail
+                                </button>
+</div>
+</div>
+</div>
+<!-- Card 2: Completed (Green) -->
+<div class="group bg-white rounded-xl border border-[#dce0e5] shadow-sm overflow-hidden flex flex-col md:flex-row hover:shadow-md transition-all duration-200">
+<div class="w-full md:w-64 h-48 md:h-auto bg-gray-200 relative flex-shrink-0 overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Modern minimalist bedroom with bright window light" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD4esBIVgekhn4QkshDX-tuAaiih1XxREvT5oODqLma1rtDbhLg2zoiGAuSucCvbTalWxMT6uJDArvx0w9Xc1II0AN-UiEAN0uYLgRb_HdapnO-H-3zzYFynQnvFfQ_Dpjt7gwZIaRlEMmYZCQWemavzABACBf2a6iBnPxDwN3sTeGIA8-fE6Rztt2uOk6kAttwJseFtW_blrJj4YZYyzzzuiXzkkgnZ1SXxkBX-KW8woiDMSm78POcJWuTH1glwLlNX_GkANBvCcs');"></div>
+</div>
+<div class="flex-1 p-5 flex flex-col justify-between">
+<div class="flex flex-col gap-4">
+<div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-md bg-[#f0f2f4] text-[#637588] text-xs font-semibold tracking-wide">#UMY-2023-772</span>
+</div>
+<h3 class="text-lg font-bold text-[#111418]">Guest House VIP - Unit 05</h3>
+<p class="text-[#637588] text-sm">Single Bed • AC • Private Bathroom</p>
+</div>
+<!-- Status Badge: Green for Completed -->
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#004029] text-white text-xs font-bold shadow-sm whitespace-nowrap self-start">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+                                        Selesai
+                                    </span>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-1 p-3 bg-white rounded-lg">
+<div class="flex flex-col">
+<span class="text-xs text-[#637588] font-medium mb-1 uppercase tracking-wider">Check-in</span>
+<div class="flex items-center gap-2 text-[#111418] text-sm font-medium">
+<span class="material-symbols-outlined text-[18px] text-[#004029]">event</span>
+                                            01 Jan 2023
+                                        </div>
+</div>
+<div class="flex flex-col">
+<span class="text-xs text-[#637588] font-medium mb-1 uppercase tracking-wider">Check-out</span>
+<div class="flex items-center gap-2 text-[#111418] text-sm font-medium">
+<span class="material-symbols-outlined text-[18px] text-[#004029]">event_available</span>
+                                            03 Jan 2023
+                                        </div>
+</div>
+</div>
+</div>
+<div class="mt-5 pt-4 border-t border-[#f0f2f4] flex justify-end">
+<button class="px-5 py-2.5 rounded-lg border border-[#dce0e5] text-[#111418] hover:bg-[#f0f2f4] text-sm font-medium transition-colors">
+                                    Lihat Detail
+                                </button>
+</div>
+</div>
+</div>
+<!-- Card 3: Cancelled (Maroon) -->
+<div class="group bg-white rounded-xl border border-[#dce0e5] shadow-sm overflow-hidden flex flex-col md:flex-row hover:shadow-md transition-all duration-200">
+<div class="w-full md:w-64 h-48 md:h-auto bg-gray-200 relative flex-shrink-0 overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center grayscale group-hover:scale-105 transition-transform duration-500" data-alt="Standard student dormitory room with wooden furniture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDqLFIaCGwbqEA9nmtgZvV8PwcLvouBHxaxRgM3uN4YhDcbkuEmXkzyD8Y46hbMcAY0Jxu_tXxuVpL4DPq4cOygrb4NjGwiL2-alr0llfqzFzlTgbLPevOAQ0dS-J4frTwicRFVYg5Y3dIU_9nf2qUv8io5PytwPQ5SU1997cB3L8A5mQyizLTgjV5_6H9mwBq24NEbolALMJotAFdJ6u6yj_sgbzomyWxjVUwpzstCwpXwv_eBfB-xe2gEA63x3zaKId7TwtdfCqE');"></div>
+</div>
+<div class="flex-1 p-5 flex flex-col justify-between">
+<div class="flex flex-col gap-4">
+<div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-md bg-[#f0f2f4] text-[#637588] text-xs font-semibold tracking-wide">#UMY-2022-104</span>
+</div>
+<h3 class="text-lg font-bold text-[#637588] line-through decoration-slate-300">Asrama Putri Gedung Siti Walidah</h3>
+<p class="text-[#637588] text-sm">Shared Room • Lantai 1</p>
+</div>
+<!-- Status Badge: Maroon for Cancelled -->
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#93251F] text-white text-xs font-bold shadow-sm whitespace-nowrap self-start">
+<span class="material-symbols-outlined text-[16px]">cancel</span>
+                                        Dibatalkan
+                                    </span>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-1 p-3 bg-white rounded-lg opacity-60">
+<div class="flex flex-col">
+<span class="text-xs text-[#637588] font-medium mb-1 uppercase tracking-wider">Check-in</span>
+<div class="flex items-center gap-2 text-[#111418] text-sm font-medium">
+<span class="material-symbols-outlined text-[18px]">event</span>
+                                            15 Aug 2022
+                                        </div>
+</div>
+<div class="flex flex-col">
+<span class="text-xs text-[#637588] font-medium mb-1 uppercase tracking-wider">Check-out</span>
+<div class="flex items-center gap-2 text-[#111418] text-sm font-medium">
+<span class="material-symbols-outlined text-[18px]">event</span>
+                                            15 Aug 2023
+                                        </div>
+</div>
+</div>
+</div>
+<div class="mt-5 pt-4 border-t border-[#f0f2f4] flex justify-end">
+<button class="px-5 py-2.5 rounded-lg border border-[#dce0e5] text-[#111418] hover:bg-[#f0f2f4] text-sm font-medium transition-colors opacity-75">
+                                    Lihat Detail
+                                </button>
+</div>
+</div>
+</div>
+<!-- Card 4: Completed (Green) -->
+<div class="group bg-white rounded-xl border border-[#dce0e5] shadow-sm overflow-hidden flex flex-col md:flex-row hover:shadow-md transition-all duration-200">
+<div class="w-full md:w-64 h-48 md:h-auto bg-gray-200 relative flex-shrink-0 overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Cozy student apartment living room area" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCt6p4_8pg1kLjDSnXeY2mKtF2dakUc0k5EX57hVDtoq30_6t217urNlIw5gag20-QAH3dMt70mHUBv2AAWJI6OpzWD2dno8hIBvu1q3WnxgA1A02YFtUTCH7jidGC9fMB5PIeWkjVCc-iSqy-GgJUYdpmQZevTmRw-K2ZI1wZKG6aFd-lelaOj5HSygIx0XfTCxS56fmuHnF4eNp2aIP0eSr1eWCPEdDC5Jf-unGvW1WPiDhV22G2n8x-q8Ji7KUHTYUlL8_o2QwY');"></div>
+</div>
+<div class="flex-1 p-5 flex flex-col justify-between">
+<div class="flex flex-col gap-4">
+<div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-md bg-[#f0f2f4] text-[#637588] text-xs font-semibold tracking-wide">#UMY-2022-555</span>
+</div>
+<h3 class="text-lg font-bold text-[#111418]">Asrama Putra Gedung B - Kamar 102</h3>
+<p class="text-[#637588] text-sm">Single Bed • Lantai 1 • Near Garden</p>
+</div>
+<!-- Status Badge: Green for Completed -->
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#004029] text-white text-xs font-bold shadow-sm whitespace-nowrap self-start">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+                                        Selesai
+                                    </span>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-1 p-3 bg-white rounded-lg">
+<div class="flex flex-col">
+<span class="text-xs text-[#637588] font-medium mb-1 uppercase tracking-wider">Check-in</span>
+<div class="flex items-center gap-2 text-[#111418] text-sm font-medium">
+<span class="material-symbols-outlined text-[18px] text-[#004029]">event</span>
+                                            10 Jun 2022
+                                        </div>
+</div>
+<div class="flex flex-col">
+<span class="text-xs text-[#637588] font-medium mb-1 uppercase tracking-wider">Check-out</span>
+<div class="flex items-center gap-2 text-[#111418] text-sm font-medium">
+<span class="material-symbols-outlined text-[18px] text-[#004029]">event_available</span>
+                                            12 Jun 2022
+                                        </div>
+</div>
+</div>
+</div>
+<div class="mt-5 pt-4 border-t border-[#f0f2f4] flex justify-end">
+<button class="px-5 py-2.5 rounded-lg border border-[#dce0e5] text-[#111418] hover:bg-[#f0f2f4] text-sm font-medium transition-colors">
+                                    Lihat Detail
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex justify-center mt-6">
+<nav aria-label="Pagination" class="flex items-center gap-1">
+<button class="flex items-center gap-1 px-3 py-2 text-sm font-medium text-[#637588] hover:text-[#111418] disabled:opacity-50 transition-colors rounded-lg hover:bg-gray-100">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+                            Previous
+                        </button>
+<div class="flex items-center gap-1 mx-2">
+<button class="w-9 h-9 rounded-lg bg-primary text-white text-sm font-medium flex items-center justify-center shadow-sm">1</button>
+<button class="w-9 h-9 rounded-lg hover:bg-[#f0f2f4] text-[#637588] text-sm font-medium flex items-center justify-center transition-colors">2</button>
+<button class="w-9 h-9 rounded-lg hover:bg-[#f0f2f4] text-[#637588] text-sm font-medium flex items-center justify-center transition-colors">3</button>
+</div>
+<button class="flex items-center gap-1 px-3 py-2 text-sm font-medium text-[#637588] hover:text-[#111418] transition-colors rounded-lg hover:bg-gray-100">
+                            Next
+                            <span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</nav>
+</div>
+</div>
+</main>
+</div>
+</body></html>
