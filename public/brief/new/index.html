@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Housing UMY - Luxury Hotel Booking</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: 'hsl(3, 66%, 35%)',
+                            hover: 'hsl(3, 66%, 28%)',
+                        },
+                        secondary: {
+                            DEFAULT: 'hsl(44, 100%, 40%)',
+                            hover: 'hsl(44, 100%, 35%)',
+                        },
+                        'dark-green': {
+                            DEFAULT: 'hsl(151, 100%, 13%)',
+                        },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Playfair Display', 'serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles */
+        :root {
+            --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color var(--transition-smooth), color var(--transition-smooth);
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Hero Overlay */
+        .hero-overlay {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: hsl(3, 66%, 35%);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: hsl(3, 66%, 28%);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .animate-bounce {
+            animation: bounce 2s infinite;
+        }
+
+        /* Image Zoom Hover */
+        .image-zoom-hover {
+            overflow: hidden;
+        }
+
+        .image-zoom-hover img {
+            transition: transform var(--transition-smooth);
+        }
+
+        .image-zoom-hover:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Mobile Menu Slide */
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .mobile-menu.active {
+            max-height: 500px;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            transform: translateX(400px);
+            transition: transform 0.3s ease-out;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .dark .toast {
+            background: hsl(151, 100%, 10%);
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="bg-white dark:bg-dark-green text-gray-900 dark:text-white">
+
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 lg:h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center space-x-2 group">
+                    <i data-lucide="hotel"
+                        class="w-8 h-8 text-primary group-hover:text-primary-hover transition-colors"></i>
+                    <span class="font-display text-2xl font-bold">Housing UMY</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#rooms"
+                        class="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors text-sm font-medium">Rooms</a>
+                    <a href="#facilities"
+                        class="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors text-sm font-medium">Facilities</a>
+                    <a href="#contact"
+                        class="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors text-sm font-medium">Contact</a>
+                </nav>
+
+                <!-- Right Side Buttons -->
+                <div class="flex items-center space-x-3">
+                    <!-- Theme Toggle -->
+                    <button id="themeToggle"
+                        class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <i data-lucide="moon" class="w-5 h-5 dark:hidden"></i>
+                        <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                    </button>
+
+                    <!-- Login Button -->
+                    <button
+                        class="hidden md:block bg-primary hover:bg-primary-hover text-white px-6 py-2 rounded-lg transition-colors">
+                        Login
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobileMenuBtn"
+                        class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                        <i data-lucide="menu" class="w-6 h-6 menu-icon"></i>
+                        <i data-lucide="x" class="w-6 h-6 close-icon hidden"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu"
+            class="mobile-menu md:hidden bg-white dark:bg-dark-green border-t border-gray-200 dark:border-gray-700">
+            <nav class="container mx-auto px-4 py-4 space-y-3">
+                <a href="#rooms"
+                    class="block py-2 text-gray-900 dark:text-white hover:text-primary transition-colors font-medium">Rooms</a>
+                <a href="#facilities"
+                    class="block py-2 text-gray-900 dark:text-white hover:text-primary transition-colors font-medium">Facilities</a>
+                <a href="#contact"
+                    class="block py-2 text-gray-900 dark:text-white hover:text-primary transition-colors font-medium">Contact</a>
+                <button
+                    class="w-full bg-primary hover:bg-primary-hover text-white px-6 py-2 rounded-lg transition-colors mt-4">
+                    Login
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
+        <!-- Background Image -->
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1561501900-3701fa6a0864?fm=jpg&q=60&w=3000&auto=format&fit=crop"
+                alt="Luxury Hotel" class="w-full h-full object-cover">
+            <div class="absolute inset-0 hero-overlay"></div>
+        </div>
+
+        <!-- Content -->
+        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="max-w-4xl mx-auto space-y-6 animate-fade-in">
+                <h1
+                    class="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight">
+                    Experience Luxury <br class="hidden sm:block">& Comfort
+                </h1>
+                <p class="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto font-light">
+                    Discover the perfect blend of elegance, comfort, and world-class hospitality at Housing UMY
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                    <button onclick="scrollToBooking()"
+                        class="bg-primary hover:bg-primary-hover text-white text-base px-8 py-4 rounded-lg transition-colors shadow-lg">
+                        Book Your Stay
+                    </button>
+                    <button onclick="scrollToRooms()"
+                        class="bg-white/10 hover:bg-white/20 text-white border border-white/30 backdrop-blur-sm text-base px-8 py-4 rounded-lg transition-colors">
+                        Explore Rooms
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i data-lucide="chevron-down" class="w-8 h-8 text-white/70"></i>
+        </div>
+    </section>
+
+    <!-- Booking Bar -->
+    <div id="booking-bar" class="relative z-20 -mt-12 lg:-mt-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div
+                class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 border border-gray-200 dark:border-gray-700">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Check-in -->
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center">
+                            <i data-lucide="calendar" class="w-4 h-4 mr-2 text-primary"></i>
+                            Check-in
+                        </label>
+                        <input type="date" id="checkIn"
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                    </div>
+
+                    <!-- Check-out -->
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center">
+                            <i data-lucide="calendar" class="w-4 h-4 mr-2 text-primary"></i>
+                            Check-out
+                        </label>
+                        <input type="date" id="checkOut"
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                    </div>
+
+                    <!-- Guests -->
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center">
+                            <i data-lucide="users" class="w-4 h-4 mr-2 text-primary"></i>
+                            Guests
+                        </label>
+                        <select id="guests"
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                            <option value="1">1 Guest</option>
+                            <option value="2" selected>2 Guests</option>
+                            <option value="3">3 Guests</option>
+                            <option value="4">4 Guests</option>
+                            <option value="5">5+ Guests</option>
+                        </select>
+                    </div>
+
+                    <!-- Search Button -->
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-transparent hidden sm:block">Search</label>
+                        <button onclick="checkAvailability()"
+                            class="w-full h-10 bg-primary hover:bg-primary-hover text-white rounded-lg transition-colors flex items-center justify-center">
+                            <i data-lucide="search" class="w-4 h-4 mr-2"></i>
+                            Check Availability
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rooms Section -->
+    <section id="rooms" class="py-16 lg:py-24 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-16">
+                <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">Our Rooms</h2>
+                <p class="text-gray-600 dark:text-gray-400 text-lg">
+                    Choose from our collection of elegantly designed rooms and suites, each offering comfort and luxury
+                </p>
+            </div>
+
+            <!-- Rooms Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                <!-- Room 1 -->
+                <div
+                    class="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col">
+                    <div class="relative overflow-hidden h-56 sm:h-64 image-zoom-hover">
+                        <img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg"
+                            alt="Deluxe King Room" class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4">
+                            <span
+                                class="bg-secondary text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">Available</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="font-display text-xl font-semibold mb-2">Deluxe King Room</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Spacious room with king-size bed and
+                            city view</p>
+                        <div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-3">
+                            <span class="flex items-center">
+                                <i data-lucide="users" class="w-4 h-4 mr-1 text-primary"></i>
+                                2 Adults
+                            </span>
+                            <span class="flex items-center">
+                                <i data-lucide="maximize" class="w-4 h-4 mr-1 text-primary"></i>
+                                35 sqm
+                            </span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Free WiFi</span>
+                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Breakfast</span>
+                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">City View</span>
+                        </div>
+                        <div
+                            class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">From</div>
+                                <div class="text-2xl font-bold text-secondary">$150<span
+                                        class="text-sm font-normal text-gray-600 dark:text-gray-400">/night</span></div>
+                            </div>
+                            <button onclick="viewRoomDetails('Deluxe King Room')"
+                                class="w-full sm:w-auto bg-primary hover:bg-primary-hover text-white px-6 py-2 rounded-lg transition-colors">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 2 -->
+                <div
+                    class="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col">
+                    <div class="relative overflow-hidden h-56 sm:h-64 image-zoom-hover">
+                        <img src="https://images.pexels.com/photos/271639/pexels-photo-271639.jpeg"
+                            alt="Executive Suite" class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4">
+                            <span
+                                class="bg-secondary text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">Available</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="font-display text-xl font-semibold mb-2">Executive Suite</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Luxury suite with separate living area
+                        </p>
+                        <div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-3">
+                            <span class="flex items-center">
+                                <i data-lucide="users" class="w-4 h-4 mr-1 text-primary"></i>
+                                3 Adults
+                            </span>
+                            <span class="flex items-center">
+                                <i data-lucide="maximize" class="w-4 h-4 mr-1 text-primary"></i>
+                                55 sqm
+                            </span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Free WiFi</span>
+                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Breakfast</span>
+                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Living Room</span>
+                        </div>
+                        <div
+                            class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">From</div>
+                                <div class="text-2xl font-bold text-secondary">$280<span
+                                        class="text-sm font-normal text-gray-600 dark:text-gray-400">/night</span></div>
+                            </div>
+                            <button onclick="viewRoomDetails('Executive Suite')"
+                                class="w-full sm:w-auto bg-primary hover:bg-primary-hover text-white px-6 py-2 rounded-lg transition-colors">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 3 -->
+                <div
+                    class="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col">
+                    <div class="relative overflow-hidden h-56 sm:h-64 image-zoom-hover">
+                        <img src="https://images.pexels.com/photos/1454806/pexels-photo-1454806.jpeg"
+                            alt="Superior Twin Room" class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4">
+                            <span
+                                class="bg-secondary text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">Available</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="font-display text-xl font-semibold mb-2">Superior Twin Room</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Modern room with two comfortable twin
+                            beds</p>
+                        <div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-3">
+                            <span class="flex items-center">
+                                <i data-lucide="users" class="w-4 h-4 mr-1 text-primary"></i>
+                                2 Adults
+                            </span>
+                            <span class="flex items-center">
+                                <i data-lucide="maximize" class="w-4 h-4 mr-1 text-primary"></i>
+                                30 sqm
+                            </span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Free WiFi</span>
+                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Breakfast</span>
+                        </div>
+                        <div
+                            class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">From</div>
+                                <div class="text-2xl font-bold text-secondary">$120<span
+                                        class="text-sm font-normal text-gray-600 dark:text-gray-400">/night</span></div>
+                            </div>
+                            <button onclick="viewRoomDetails('Superior Twin Room')"
+                                class="w-full sm:w-auto bg-primary hover:bg-primary-hover text-white px-6 py-2 rounded-lg transition-colors">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 4 -->
+                <div
+                    class="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col">
+                    <div class="relative overflow-hidden h-56 sm:h-64 image-zoom-hover">
+                        <img src="https://images.pexels.com/photos/90317/pexels-photo-90317.jpeg" alt="Premium Suite"
+                            class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4">
+                            <span
+                                class="bg-gray-500 text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">Booked</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="font-display text-xl font-semibold mb-2">Premium Suite</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Elegant suite with premium amenities
+                            and design</p>
+                        <div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-3">
+                            <span class="flex items-center">
+                                <i data-lucide="users" class="w-4 h-4 mr-1 text-primary"></i>
+                                4 Adults
+                            </span>
+                            <span class="flex items-center">
+                                <i data-lucide="maximize" class="w-4 h-4 mr-1 text-primary"></i>
+                                65 sqm
+                            </span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Free WiFi</span>
+                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Breakfast</span>
+                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Spa Bath</span>
+                        </div>
+                        <div
+                            class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">From</div>
+                                <div class="text-2xl font-bold text-secondary">$350<span
+                                        class="text-sm font-normal text-gray-600 dark:text-gray-400">/night</span></div>
+                            </div>
+                            <button disabled
+                                class="w-full sm:w-auto bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 px-6 py-2 rounded-lg cursor-not-allowed">
+                                Unavailable
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 5 -->
+                <div
+                    class="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col">
+                    <div class="relative overflow-hidden h-56 sm:h-64 image-zoom-hover">
+                        <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461" alt="Grand Luxury Room"
+                            class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4">
+                            <span
+                                class="bg-secondary text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">Available</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="font-display text-xl font-semibold mb-2">Grand Luxury Room</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Contemporary room with modern
+                            furnishings</p>
+                        <div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-3">
+                            <span class="flex items-center">
+                                <i data-lucide="users" class="w-4 h-4 mr-1 text-primary"></i>
+                                2 Adults
+                            </span>
+                            <span class="flex items-center">
+                                <i data-lucide="maximize" class="w-4 h-4 mr-1 text-primary"></i>
+                                40 sqm
+                            </span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Free WiFi</span>
+                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Breakfast</span>
+                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Sofa</span>
+                        </div>
+                        <div
+                            class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">From</div>
+                                <div class="text-2xl font-bold text-secondary">$200<span
+                                        class="text-sm font-normal text-gray-600 dark:text-gray-400">/night</span></div>
+                            </div>
+                            <button onclick="viewRoomDetails('Grand Luxury Room')"
+                                class="w-full sm:w-auto bg-primary hover:bg-primary-hover text-white px-6 py-2 rounded-lg transition-colors">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 6 -->
+                <div
+                    class="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col">
+                    <div class="relative overflow-hidden h-56 sm:h-64 image-zoom-hover">
+                        <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32"
+                            alt="Executive King Room" class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4">
+                            <span
+                                class="bg-secondary text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">Available</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="font-display text-xl font-semibold mb-2">Executive King Room</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Sophisticated room with elegant design
+                        </p>
+                        <div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-3">
+                            <span class="flex items-center">
+                                <i data-lucide="users" class="w-4 h-4 mr-1 text-primary"></i>
+                                2 Adults
+                            </span>
+                            <span class="flex items-center">
+                                <i data-lucide="maximize" class="w-4 h-4 mr-1 text-primary"></i>
+                                38 sqm
+                            </span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Free WiFi</span>
+                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Breakfast</span>
+                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Premium Bedding</span>
+                        </div>
+                        <div
+                            class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">From</div>
+                                <div class="text-2xl font-bold text-secondary">$180<span
+                                        class="text-sm font-normal text-gray-600 dark:text-gray-400">/night</span></div>
+                            </div>
+                            <button onclick="viewRoomDetails('Executive King Room')"
+                                class="w-full sm:w-auto bg-primary hover:bg-primary-hover text-white px-6 py-2 rounded-lg transition-colors">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Facilities Section -->
+    <section id="facilities" class="py-16 lg:py-24 bg-white dark:bg-dark-green">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-16">
+                <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">Facilities & Amenities</h2>
+                <p class="text-gray-600 dark:text-gray-400 text-lg">
+                    Experience world-class facilities designed for your comfort and convenience
+                </p>
+            </div>
+
+            <!-- Facilities Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                <!-- Facility 1 -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-4">
+                        <i data-lucide="waves" class="w-8 h-8 text-primary"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-semibold mb-2">Swimming Pool</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Infinity pool with stunning views</p>
+                </div>
+
+                <!-- Facility 2 -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-4">
+                        <i data-lucide="dumbbell" class="w-8 h-8 text-primary"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-semibold mb-2">Fitness Center</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">24/7 state-of-the-art gym</p>
+                </div>
+
+                <!-- Facility 3 -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-4">
+                        <i data-lucide="sparkles" class="w-8 h-8 text-primary"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-semibold mb-2">Spa & Wellness</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Luxury spa and massage services</p>
+                </div>
+
+                <!-- Facility 4 -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-4">
+                        <i data-lucide="utensils-crossed" class="w-8 h-8 text-primary"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-semibold mb-2">Restaurant</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Fine dining with local & international cuisine
+                    </p>
+                </div>
+
+                <!-- Facility 5 -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-4">
+                        <i data-lucide="wifi" class="w-8 h-8 text-primary"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-semibold mb-2">Free WiFi</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">High-speed internet throughout</p>
+                </div>
+
+                <!-- Facility 6 -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-4">
+                        <i data-lucide="parking-circle" class="w-8 h-8 text-primary"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-semibold mb-2">Free Parking</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Complimentary parking for guests</p>
+                </div>
+
+                <!-- Facility 7 -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-4">
+                        <i data-lucide="wind" class="w-8 h-8 text-primary"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-semibold mb-2">Air Conditioning</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Climate control in all rooms</p>
+                </div>
+
+                <!-- Facility 8 -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-4">
+                        <i data-lucide="coffee" class="w-8 h-8 text-primary"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-semibold mb-2">Coffee Lounge</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Premium coffee & refreshments</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-dark-green text-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+                <!-- Brand -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="hotel" class="w-8 h-8 text-secondary"></i>
+                        <span class="font-display text-2xl font-bold">Housing UMY</span>
+                    </div>
+                    <p class="text-white/80 text-sm leading-relaxed">
+                        Experience luxury and comfort at Housing UMY. Your perfect stay awaits with world-class
+                        amenities and exceptional service.
+                    </p>
+                    <div class="flex space-x-3">
+                        <button class="p-2 hover:bg-white/10 rounded-lg transition-colors">
+                            <i data-lucide="facebook" class="w-5 h-5"></i>
+                        </button>
+                        <button class="p-2 hover:bg-white/10 rounded-lg transition-colors">
+                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                        </button>
+                        <button class="p-2 hover:bg-white/10 rounded-lg transition-colors">
+                            <i data-lucide="twitter" class="w-5 h-5"></i>
+                        </button>
+                        <button class="p-2 hover:bg-white/10 rounded-lg transition-colors">
+                            <i data-lucide="linkedin" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="font-display text-lg font-semibold mb-4 text-secondary">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-white/80 hover:text-secondary transition-colors text-sm">About
+                                Us</a></li>
+                        <li><a href="#rooms" class="text-white/80 hover:text-secondary transition-colors text-sm">Rooms
+                                & Suites</a></li>
+                        <li><a href="#facilities"
+                                class="text-white/80 hover:text-secondary transition-colors text-sm">Facilities</a></li>
+                        <li><a href="#" class="text-white/80 hover:text-secondary transition-colors text-sm">Gallery</a>
+                        </li>
+                        <li><a href="#" class="text-white/80 hover:text-secondary transition-colors text-sm">Offers</a>
+                        </li>
+                        <li><a href="#contact"
+                                class="text-white/80 hover:text-secondary transition-colors text-sm">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="font-display text-lg font-semibold mb-4 text-secondary">Contact Info</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start space-x-3 text-sm">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-secondary flex-shrink-0 mt-0.5"></i>
+                            <span class="text-white/80">123 Luxury Avenue, City Center, Indonesia</span>
+                        </li>
+                        <li class="flex items-center space-x-3 text-sm">
+                            <i data-lucide="phone" class="w-5 h-5 text-secondary flex-shrink-0"></i>
+                            <span class="text-white/80">+62 123 456 7890</span>
+                        </li>
+                        <li class="flex items-center space-x-3 text-sm">
+                            <i data-lucide="mail" class="w-5 h-5 text-secondary flex-shrink-0"></i>
+                            <span class="text-white/80">info@housingumy.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h3 class="font-display text-lg font-semibold mb-4 text-secondary">Newsletter</h3>
+                    <p class="text-white/80 text-sm mb-4">Subscribe to receive updates and exclusive offers</p>
+                    <form onsubmit="subscribeNewsletter(event)" class="space-y-2">
+                        <input type="email" placeholder="Your email" required
+                            class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-secondary">
+                        <button type="submit"
+                            class="w-full bg-secondary hover:bg-secondary-hover text-white px-6 py-2 rounded-lg transition-colors">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="mt-12 pt-8 border-t border-white/10 text-center text-sm text-white/70">
+                <p>&copy; <span id="currentYear"></span> Housing UMY. All rights reserved. Designed with excellence.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
+
+    <!-- JavaScript -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Set minimum date for check-in to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('checkIn').setAttribute('min', today);
+        document.getElementById('checkOut').setAttribute('min', today);
+
+        // Update check-out min date when check-in changes
+        document.getElementById('checkIn').addEventListener('change', function () {
+            const checkInDate = this.value;
+            document.getElementById('checkOut').setAttribute('min', checkInDate);
+        });
+
+        // Header scroll behavior
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById('header');
+            if (window.scrollY > 20) {
+                header.classList.add('bg-white', 'dark:bg-gray-900', 'shadow-md');
+                header.classList.remove('bg-transparent');
+            } else {
+                header.classList.remove('bg-white', 'dark:bg-gray-900', 'shadow-md');
+                header.classList.add('bg-transparent');
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuIcon = mobileMenuBtn.querySelector('.menu-icon');
+        const closeIcon = mobileMenuBtn.querySelector('.close-icon');
+
+        mobileMenuBtn.addEventListener('click', function () {
+            mobileMenu.classList.toggle('active');
+            menuIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking on links
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', function () {
+                mobileMenu.classList.remove('active');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            });
+        });
+
+        // Dark mode toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        html.classList.toggle('dark', currentTheme === 'dark');
+
+        themeToggle.addEventListener('click', function () {
+            html.classList.toggle('dark');
+            const newTheme = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', newTheme);
+            lucide.createIcons();
+        });
+
+        // Smooth scroll functions
+        function scrollToBooking() {
+            document.getElementById('booking-bar').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function scrollToRooms() {
+            document.getElementById('rooms').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Toast notification function
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `
+                <div class="flex items-center space-x-3">
+                    <i data-lucide="${type === 'success' ? 'check-circle' : 'alert-circle'}" class="w-5 h-5 ${type === 'success' ? 'text-green-500' : 'text-red-500'}"></i>
+                    <div>
+                        <div class="font-semibold">${type === 'success' ? 'Success!' : 'Error!'}</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">${message}</div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('toastContainer').appendChild(toast);
+            lucide.createIcons();
+
+            // Show toast
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+
+            // Hide and remove toast
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // Check availability function
+        function checkAvailability() {
+            const checkIn = document.getElementById('checkIn').value;
+            const checkOut = document.getElementById('checkOut').value;
+            const guests = document.getElementById('guests').value;
+
+            if (!checkIn || !checkOut) {
+                showToast('Please select check-in and check-out dates', 'error');
+                return;
+            }
+
+            const checkInDate = new Date(checkIn);
+            const checkOutDate = new Date(checkOut);
+            const nights = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
+
+            showToast(`Searching available rooms for ${nights} night(s), ${guests} guest(s)...`);
+        }
+
+        // View room details function
+        function viewRoomDetails(roomName) {
+            showToast(`Viewing details for ${roomName}`);
+        }
+
+        // Newsletter subscription function
+        function subscribeNewsletter(event) {
+            event.preventDefault();
+            const email = event.target.querySelector('input[type="email"]').value;
+            showToast('Thank you for subscribing to our newsletter!');
+            event.target.reset();
+        }
+    </script>
+</body>
+
+</html>
